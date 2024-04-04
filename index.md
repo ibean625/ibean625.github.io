@@ -33,21 +33,21 @@ I'm a master's student in Artificial Intelligence at [Tsinghua University](https
 
 ## Awards
 
-**[2023.12]** Huawei Scholarship
-**[2022.12]** Outstanding Enterprise Scholarship
-**[2022.11]** First-Class Academic Scholarship
-**[2022.11]** First-Class Academic Scholarship
-**[2022.10]** Third Prize in Mathematical Modeling Competition
-**[2022.08]** National First Prize in 15th CAD Competition
-**[2022.07]** National Second Prize in24 th CRAIC Competition
-**[2022.05]** Top Ten Academic Assistance Volunteers Award
-**[2022.01]** First Prize in Mathematics Competition
-**[2021.12]** Outstanding Student Cadre Exemplar Award
-**[2021.11]** Top Ten Hosts Award
-**[2021.11]** First-Class Academic Scholarship
-**[2021.10]** Outstanding Orator Award
-**[2021.10]** National Scholarship
-**[2021.05]** Excellent Youth League Member Award
+- **[2023.12]** Huawei Scholarship
+- **[2022.12]** Outstanding Enterprise Scholarship
+- **[2022.11]** First-Class Academic Scholarship
+- **[2022.11]** First-Class Academic Scholarship
+- **[2022.10]** Third Prize in Mathematical Modeling Competition
+- **[2022.08]** National First Prize in 15th CAD Competition
+- **[2022.07]** National Second Prize in24 th CRAIC Competition
+- **[2022.05]** Top Ten Academic Assistance Volunteers Award
+- **[2022.01]** First Prize in Mathematics Competition
+- **[2021.12]** Outstanding Student Cadre Exemplar Award
+- **[2021.11]** Top Ten Hosts Award
+- **[2021.11]** First-Class Academic Scholarship
+- **[2021.10]** Outstanding Orator Award
+- **[2021.10]** National Scholarship
+- **[2021.05]** Excellent Youth League Member Award
 
 
 {% include_relative _includes/publications.md %}
