@@ -11,11 +11,13 @@ I'm a master's student in Artificial Intelligence at [Tsinghua University](https
 - **Computer Vision:** image recognition, image generation, video captioning
 - **Machine Learning:** meta-learning, incremental learning, transfer learning -->
 ## Academic Background
-### Sep 2020 - June 2024 : Harbin Institute of Technology, Shenzhen
-- GPA: 3.93/4 
-- Rank: 1/67
-- CET-4: 574
-- CET-6: 518  
+
+### THU (Sep 2024 - Present)
+- coming soon
+
+### HITSZ (Sep 2020 - June 2024)
+- GPA: 3.93/4   Rank: 1/67
+- CET-4: 574    CET-6: 518  
 
 
 ## News
