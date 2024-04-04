@@ -16,9 +16,10 @@ I'm a master's student in Artificial Intelligence at [Tsinghua University](https
 - coming soon
 
 ### HITSZ (Sep 2020 - June 2024)
-- GPA: 3.93/4   Rank: 1/67
-- CET-4: 574    CET-6: 518  
-
+- GPA: 3.93/4
+- Rank: 1/67
+- CET-4: 574
+- CET-6: 518  
 
 ## News
 
