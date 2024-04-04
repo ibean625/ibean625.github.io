@@ -22,7 +22,7 @@ I'm a master's student in Artificial Intelligence at [Tsinghua University](https
 
 ## Academic Background
 
-<span style="color:black">### THU (2024.09 - Present)</span>
+### THU (2024.09 - Present)
 - coming soon
 
 ### HITSZ (2020.09 - 2024.06)
