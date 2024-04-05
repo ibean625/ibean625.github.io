@@ -7,7 +7,7 @@ main:
     pdf: ./assets/files/SERL.pdf
     # code: https://github.com/MrGiovanni/ContinualLearning
     # bibtex: https://bib.yliu.me/MICCAI23.txt
-    video: https://youtu.be/ZNlSNu7COoQ
+    video: ./assets/files/SERL.mp4
     image: ./assets/img/SERL.png
     notes: submitted
 
