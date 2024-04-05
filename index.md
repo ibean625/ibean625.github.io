@@ -50,6 +50,6 @@ I'm a master's student in Artificial Intelligence at [Tsinghua University](https
 - **[2021.05]** Excellent Youth League Member Award
 
 
-{% include_relative _includes/publications.md %}
+{% include_relative _ includes/publications.md %}
 
 {% include_relative _includes/services.md %}
