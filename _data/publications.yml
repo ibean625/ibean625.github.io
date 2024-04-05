@@ -11,13 +11,14 @@ main:
     image: ./assets/img/SERL.png
     notes: submitted
 
-  - title: "Mnemonics Training: Multi-Class Incremental Learning without Forgetting"
-    authors: <strong>Yaoyao Liu</strong>, Yuting Su, An-An Liu, Bernt Schiele, Qianru Sun
-    conference_short: CVPR
-    conference: IEEE/CVF Conference on Computer Vision and Pattern Recognition <strong>(CVPR)</strong>, 2020.
-    pdf: https://arxiv.org/pdf/2002.10211.pdf
-    code: https://github.com/yaoyao-liu/class-incremental-learning/tree/main/mnemonics-training
-    page: https://class-il.mpi-inf.mpg.de/mnemonics/
-    bibtex: https://class-il.mpi-inf.mpg.de/mnemonics/
-    notes: Oral Presentation
-    image: ./assets/img/teaser_example.png
+  - title: "Visual servoing-based pneumatic hair transplantation mechanism for robotic FUE surgery"
+    authors: Fulin Jia, Shenghao Yang, <strong>Chenxi Han</strong>, Junye Li, Xuanru Han, Chao Zhang, Jiaole Wang†
+    conference_short: BIRob
+    conference: Biomimetic Intelligence and Robotics <strong>(BiRob)</strong>, 2023.
+    pdf: ./assets/files/hair transplantation.pdf
+    video: ./assets/files/hair transplantation.mp4
+    # code: https://github.com/yaoyao-liu/class-incremental-learning/tree/main/mnemonics-training
+    # page: https://class-il.mpi-inf.mpg.de/mnemonics/
+    # bibtex: https://class-il.mpi-inf.mpg.de/mnemonics/
+    # notes: Oral Presentation
+    image: ./assets/img/hair transplantation.png
