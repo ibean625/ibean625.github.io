@@ -31,7 +31,7 @@ I'm a master's student in Artificial Intelligence at [Tsinghua University](https
 - CET-4: 574
 - CET-6: 518  
 
-## Awards
+## Awards & Scholarship
 
 - **[2023.12]** Huawei Scholarship
 - **[2022.12]** Outstanding Enterprise Scholarship
