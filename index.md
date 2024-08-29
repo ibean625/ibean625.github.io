@@ -4,7 +4,7 @@ layout: homepage
 
 # About Me
 
-I'm a master's student in Artificial Intelligence at [Tsinghua University](https://www.sigs.tsinghua.edu.cn/sjyxxyjy/list.htm) advised by Prof. [Houde Liu](https://www.sigs.tsinghua.edu.cn/lhd/main.htm). Currently, I'm researching legged robots at the [THU-SHU Joint Lab of RoboArt & Embodied Intelligence](https://linqi-ye.github.io/), advised by Prof. [Linqi Ye](https://ai.shu.edu.cn/info/1074/1445.htm). I received my bachelor's degree in Mechanical Engineering from [Harbin Institute of Technology, Shenzhen](http://smea.hitsz.edu.cn/) advised by Prof. [Wenfu Xu](https://faculty.hitsz.edu.cn/xuwenfu) and [Jiaole Wang](https://faculty.hitsz.edu.cn/jlwang). My interests include legged robots, reinforcement learning, emodied intelligence, and mechanical engineering.
+Hi, I'm a master's student in Artificial Intelligence at [Tsinghua University](https://www.sigs.tsinghua.edu.cn/sjyxxyjy/list.htm). Currently, I'm researching humanoid robots at [Tsinghua Ai & Robot Lab](https://www.sigs.tsinghua.edu.cn/lhd/list.htm) and [TSLab](https://linqi-ye.github.io/), advised by Prof. [Houde Liu](https://www.sigs.tsinghua.edu.cn/lhd/list.htm) and Prof. [Linqi Ye](https://ai.shu.edu.cn/info/1074/1445.htm). I received my bachelor's degree in Mechanical Engineering from [Harbin Institute of Technology, Shenzhen](http://smea.hitsz.edu.cn/) advised by Prof. [Wenfu Xu](https://faculty.hitsz.edu.cn/xuwenfu) and [Jiaole Wang](https://faculty.hitsz.edu.cn/jlwang). My interests include humanoid robots, reinforcement learning, imitation learning, and mechanical engineering.
 
 <!-- ## Research Interests
 
@@ -20,6 +20,7 @@ I'm a master's student in Artificial Intelligence at [Tsinghua University](https
 - **[Mar. 2019]** Our paper about few-shot learning is accepted to CVPR 2019.
  -->
 
+{% include_relative _includes/publications.md %}
 
 ## Academic Background
 
@@ -29,28 +30,29 @@ I'm a master's student in Artificial Intelligence at [Tsinghua University](https
 ### HITSZ (2020.09 - 2024.06)
 - GPA: 3.93/4
 - Rank: 1/67
-- CET-4: 574
-- CET-6: 518  
-
-## Awards & Scholarsh
-
-- **[2023.12]** Huawei Scholarship
-- **[2022.12]** Outstanding Enterprise Scholarship
-- **[2022.11]** First-Class Academic Scholarship
-- **[2022.11]** First-Class Academic Scholarship
-- **[2022.10]** Third Prize in Mathematical Modeling Competition
-- **[2022.08]** National First Prize in 15th CAD Competition
-- **[2022.07]** National Second Prize in24 th CRAIC Competition
-- **[2022.05]** Top Ten Academic Assistance Volunteers Award
-- **[2022.01]** First Prize in Mathematics Competition
-- **[2021.12]** Outstanding Student Cadre Exemplar Award
-- **[2021.11]** Top Ten Hosts Award
-- **[2021.11]** First-Class Academic Scholarship
-- **[2021.10]** Outstanding Orator Award
-- **[2021.10]** National Scholarship
-- **[2021.05]** Excellent Youth League Member Award
 
 
-{% include_relative _includes/publications.md %}
+## News
+- **[07/2024]** Obtain media coverage in Shenzhen [Media](https://m.dutenews.com/n/article/8256944?from=app&client=1&trace_id=173561447121344)[School](https://mp.weixin.qq.com/s/Y8rzfY00Lwh0maa6pamo6w)
+- **[06/2024]** One paper has been accepted by IROS 2024, see you in Dhabi!
+- **[06/2024]** Awarded the title of Outstanding Graduate
+- **[05/2024]** Participated in IEEE ICRA Quadruped Robot Challenge in Japan
+- **[04/2024]** Serves as COO of ZeroTech
+- **[02/2024]** Received the Dean's Scholarship
+- **[12/2023]** Honored with the Huawei Scholarship
+- **[12/2022]** Won the Outstanding Enterprise Scholarship
+- **[11/2022]** Received the First-Class Academic Scholarship
+- **[08/2022]** Secured the National First Prize in the 15th CAD Competition
+- **[07/2022]** Awarded the National Second Prize in the 24th CRAIC Competition
+- **[05/2022]** Recognized with the Top Ten Academic Assistance Volunteers Award
+- **[01/2022]** Achieved First Prize in the Mathematics Competition
+- **[12/2021]** Honored as the Outstanding Student Cadre Exemplar
+- **[11/2021]** Awarded the Top Ten Hosts Award
+- **[10/2021]** Recognized with the Outstanding Orator Award
+- **[10/2021]** Received the National Scholarship
+- **[05/2021]** Honored with the Excellent Youth League Member Award
+- **[12/2022]** Elected as the President of the Student Union
+- **[09/2021]** Appointed as the Director of the Publicity Department
+
 
 <!-- {% include_relative _includes/services.md %} -->
