@@ -4,11 +4,13 @@ main:
     authors: Yi Cheng, <strong>Chenxi Han*</strong>, Yuheng Min, LinQi Ye, Houde Liu†, Hang Liu, Bin Liang
     conference_short: IROS 2024
     conference: IEEE/RSJ International Conference on Intelligent Robots and Systems <strong>(IROS)</strong>, 2024.
-    pdf: ./assets/files/SERL.pdf
+    pdf: ./assets/files/SERL_v2.pdf
     # code: https://github.com/MrGiovanni/ContinualLearning
     # bibtex: https://bib.yliu.me/MICCAI23.txt
     video: ./assets/files/SERL.mp4
-    image: ./assets/img/SERL.png
+    image: ./assets/img/SERL_v2.png
+    Project page: https://serl-iros2024.github.io/
+    arxiv: https://arxiv.org/abs/2408.15632
     notes: Oral Pitch
 
   - title: "Visual servoing-based pneumatic hair transplantation mechanism for robotic FUE surgery"
