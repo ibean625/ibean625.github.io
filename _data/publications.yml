@@ -9,7 +9,7 @@ main:
     # bibtex: https://bib.yliu.me/MICCAI23.txt
     video: ./assets/files/SERL.mp4
     image: ./assets/img/SERL_v2.png
-    Project page: https://serl-iros2024.github.io/
+    page: https://serl-iros2024.github.io/
     arxiv: https://arxiv.org/abs/2408.15632
     notes: Oral Pitch
 
