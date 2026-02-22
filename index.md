@@ -33,6 +33,7 @@ Hi, I'm a master's student in Artificial Intelligence at [Tsinghua University](h
 
 
 ## News
+- **[12/2025]** One paper has been accepted by ICRA 2026, see you in Vienna!
 - **[07/2024]** Obtain media coverage in Shenzhen [Media](https://m.dutenews.com/n/article/8256944?from=app&client=1&trace_id=173561447121344), [School](https://mp.weixin.qq.com/s/Y8rzfY00Lwh0maa6pamo6w)
 - **[06/2024]** One paper has been accepted by IROS 2024, see you in Dhabi!
 - **[06/2024]** Awarded the title of Outstanding Graduate
