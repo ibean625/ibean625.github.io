@@ -36,3 +36,14 @@ main:
     # notes: Oral Presentation
     image: ./assets/img/hair transplantation.png
 
+  - title: "Safe expeditious whole-body control of mobile manipulators for collision avoidance"
+    authors: Bingjie Chen, Yancong Wei, Rihao Liu, <strong>Chenxi Han</strong>, Houde Liu, Chongkun Xia, Liang Han, Bin Liang
+    conference_short: BIRob
+    conference: Biomimetic Intelligence and Robotics <strong>(BIRob)</strong>, 2025.
+    pdf: ./assets/files/SEWB.pdf
+    # video: ./assets/files/hair transplantation.mp4
+    # code: https://github.com/yaoyao-liu/class-incremental-learning/tree/main/mnemonics-training
+    # page: https://class-il.mpi-inf.mpg.de/mnemonics/
+    # bibtex: https://class-il.mpi-inf.mpg.de/mnemonics/
+    # notes: Oral Presentation
+    image: ./assets/img/SEWB.png

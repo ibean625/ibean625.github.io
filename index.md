@@ -24,14 +24,14 @@ Hi, I'm a master's student in Artificial Intelligence at [Tsinghua University](h
 
 {% include_relative _includes/publications.md %}
 
-## Academic Background
+<!-- ## Academic Background
 
 ### THU (2024.09 - Present)
 - coming soon
 
 ### HITSZ (2020.09 - 2024.06)
 - GPA: 3.93/4                  
-- Rank: 1/67
+- Rank: 1/67 -->
 
 
 <!-- ## News
