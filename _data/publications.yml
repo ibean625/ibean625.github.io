@@ -1,6 +1,6 @@
 main:
   - title: "PMG: Parameterized Motion Generator for Human-like Locomotion Control"
-    authors: <strong>Chenxi Han</strong>, Yuheng Min, Zihao Huang, Ao Hong, Hang Liu, Yi Cheng, Houde Liu
+    authors: <strong>Chenxi Han*</strong>, Yuheng Min*, Zihao Huang, Ao Hong, Hang Liu, Yi Cheng, Houde Liu
     conference_short: ICRA 2026
     conference: IEEE International Conference on Robotics and Automation <strong>(ICRA)</strong>, 2026.
     pdf: ./assets/files/PMG.pdf
@@ -12,7 +12,7 @@ main:
     arxiv: https://arxiv.org/abs/2602.12656
 
   - title: Structural Optimization of Lightweight Bipedal Robot via SERL
-    authors: Yi Cheng, <strong>Chenxi Han*</strong>, Yuheng Min, LinQi Ye, Houde Liu†, Hang Liu, Bin Liang
+    authors: Yi Cheng*, <strong>Chenxi Han*</strong>, Yuheng Min, LinQi Ye, Houde Liu†, Hang Liu, Bin Liang
     conference_short: IROS 2024
     conference: IEEE/RSJ International Conference on Intelligent Robots and Systems <strong>(IROS)</strong>, 2024.
     pdf: ./assets/files/SERL_v2.pdf
