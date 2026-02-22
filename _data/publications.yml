@@ -1,5 +1,5 @@
 main:
-  - title: PMG: Parameterized Motion Generator for Human-like Locomotion Control
+  - title: "PMG: Parameterized Motion Generator for Human-like Locomotion Control"
     authors: Chenxi Han, Yuheng Min, Zihao Huang, Ao Hong, Hang Liu, Yi Cheng, Houde Liu
     conference_short: ICRA 2026
     conference: IEEE International Conference on Robotics and Automation <strong>(ICRA)</strong>, 2026.
