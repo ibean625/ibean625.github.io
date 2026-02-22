@@ -6,7 +6,7 @@ layout: homepage
 
 Hi, I'm a master's student in Artificial Intelligence at [Tsinghua University](https://www.sigs.tsinghua.edu.cn/sjyxxyjy/list.htm). I'm currently researching humanoid robots at [Tsinghua AI & Robot Lab](https://www.sigs.tsinghua.edu.cn/lhd/list.htm), advised by Prof. [Houde Liu](https://www.sigs.tsinghua.edu.cn/lhd/list.htm). I am also a co-founder of the humanoid robotics startup [ZERITH](https://zerith.ai/), where I lead motion-control algorithms and drive the RL locomotion and teleoperation algorithm framework. I received my bachelor's degree in Mechanical Engineering from [Harbin Institute of Technology, Shenzhen](http://smea.hitsz.edu.cn/) advised by Prof. [Wenfu Xu](https://faculty.hitsz.edu.cn/xuwenfu) and [Jiaole Wang](https://faculty.hitsz.edu.cn/jlwang). My research interests include reinforcement learning (RL), vision-language-action (VLA) post-training, and imitation learning (IL).
 
-<span style="color:#e74d3c;"><strong>I am actively seeking Ph.D. positions starting in Fall 2027.</strong></span>
+<span style="color:#e74d3c !important;"><strong>I am currently seeking Ph.D. opportunities starting in Fall 2027.</strong></span>
 
 <!-- ## Research Interests
 
