@@ -6,6 +6,8 @@ layout: homepage
 
 Hi, I'm a master's student in Artificial Intelligence at [Tsinghua University](https://www.sigs.tsinghua.edu.cn/sjyxxyjy/list.htm). I'm currently researching humanoid robots at [Tsinghua AI & Robot Lab](https://www.sigs.tsinghua.edu.cn/lhd/list.htm), advised by Prof. [Houde Liu](https://www.sigs.tsinghua.edu.cn/lhd/list.htm). I am also a co-founder of the humanoid robotics startup [ZERITH](https://zerith.ai/), where I lead motion-control algorithms and drive the RL locomotion and teleoperation algorithm framework. I received my bachelor's degree in Mechanical Engineering from [Harbin Institute of Technology, Shenzhen](http://smea.hitsz.edu.cn/) advised by Prof. [Wenfu Xu](https://faculty.hitsz.edu.cn/xuwenfu) and [Jiaole Wang](https://faculty.hitsz.edu.cn/jlwang). My research interests include reinforcement learning (RL), vision-language-action (VLA) post-training, and imitation learning (IL).
 
+<span style="color:#e74d3c;"><strong>I am actively seeking Ph.D. positions starting in Fall 2027.</strong></span>
+
 <!-- ## Research Interests
 
 - **Computer Vision:** image recognition, image generation, video captioning
@@ -32,7 +34,7 @@ Hi, I'm a master's student in Artificial Intelligence at [Tsinghua University](h
 - Rank: 1/67
 
 
-## News
+<!-- ## News
 - **[12/2025]** One paper has been accepted by ICRA 2026, see you in Vienna!
 - **[07/2024]** Obtain media coverage in Shenzhen [Media](https://m.dutenews.com/n/article/8256944?from=app&client=1&trace_id=173561447121344), [School](https://mp.weixin.qq.com/s/Y8rzfY00Lwh0maa6pamo6w)
 - **[06/2024]** One paper has been accepted by IROS 2024, see you in Dhabi!
@@ -53,7 +55,7 @@ Hi, I'm a master's student in Artificial Intelligence at [Tsinghua University](h
 - **[10/2021]** Received the National Scholarship
 - **[05/2021]** Honored with the Excellent Youth League Member Award
 - **[12/2022]** Elected as the President of the Student Union
-- **[09/2021]** Appointed as the Director of the Publicity Department
+- **[09/2021]** Appointed as the Director of the Publicity Department -->
 
 
 <!-- {% include_relative _includes/services.md %} -->
