@@ -35,6 +35,7 @@ main:
     # bibtex: https://class-il.mpi-inf.mpg.de/mnemonics/
     # notes: Oral Presentation
     image: ./assets/img/hair transplantation.png
+    notes: JCR Q1
 
   - title: "Safe expeditious whole-body control of mobile manipulators for collision avoidance"
     authors: Bingjie Chen, Yancong Wei, Rihao Liu, <strong>Chenxi Han</strong>, Houde Liu, Chongkun Xia, Liang Han, Bin Liang
@@ -47,3 +48,4 @@ main:
     # bibtex: https://class-il.mpi-inf.mpg.de/mnemonics/
     # notes: Oral Presentation
     image: ./assets/img/SEWB.png
+    notes: JCR Q1
