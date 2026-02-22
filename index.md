@@ -4,7 +4,7 @@ layout: homepage
 
 # About Me
 
-Hi, I am a master’s student in Artificial Intelligence at [Tsinghua University](https://www.sigs.tsinghua.edu.cn/sjyxxyjy/list.htm).  I am currently conducting research on humanoid robotics at the [Tsinghua AI & Robot Lab](https://www.sigs.tsinghua.edu.cn/lhd/list.htm), advised by Prof. Houde Liu. I received my bachelor’s degree in Robotics Engineering from [Harbin Institute of Technology, Shenzhen](http://smea.hitsz.edu.cn/), where I was advised by Prof. Wenfu Xu and Prof. Jiaole Wang.
+Hi, I am a master’s student in Artificial Intelligence at [Tsinghua University](https://www.sigs.tsinghua.edu.cn/sjyxxyjy/list.htm).  I am currently conducting research at the [Tsinghua AI & Robot Lab](https://www.sigs.tsinghua.edu.cn/lhd/list.htm), advised by Prof. Houde Liu. I received my bachelor’s degree in Robotics Engineering from [Harbin Institute of Technology, Shenzhen](http://smea.hitsz.edu.cn/), where I was advised by Prof. Wenfu Xu and Prof. Jiaole Wang.
 
 In parallel, I am a co-founder of the robotics startup [ZERITH](https://zerith.ai/), where I lead the Motion Control Department. I direct the development of motion-control algorithms and architect the reinforcement learning–based locomotion and teleoperation framework, overseeing system integration from algorithm design to real-world deployment.
 
