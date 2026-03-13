@@ -4,9 +4,9 @@ layout: homepage
 
 # About Me
 
-Hi, I am a master’s student in Artificial Intelligence at [Tsinghua University](https://www.sigs.tsinghua.edu.cn/sjyxxyjy/list.htm).  I am currently conducting research at the [Tsinghua AI & Robot Lab](https://www.sigs.tsinghua.edu.cn/lhd/list.htm), advised by Prof. Houde Liu. I received my bachelor’s degree in Robotics Engineering from [Harbin Institute of Technology, Shenzhen](http://smea.hitsz.edu.cn/), where I was advised by Prof. Wenfu Xu and Prof. Jiaole Wang.
+Hi, I am a master’s student in Artificial Intelligence at [Tsinghua University](https://www.sigs.tsinghua.edu.cn/sjyxxyjy/list.htm).  I am currently conducting research at the [Tsinghua AI & Robot Lab](https://www.sigs.tsinghua.edu.cn/lhd/list.htm), advised by Prof. Houde Liu（刘厚德）. I received my bachelor’s degree in Robotics Engineering from [Harbin Institute of Technology, Shenzhen](http://smea.hitsz.edu.cn/), where I was advised by Prof. Wenfu Xu（徐文福）and Prof. Jiaole Wang（王焦乐）.
 
-In parallel, I am a co-founder of the robotics startup [ZERITH](https://zerith.ai/), where I lead the Motion Control Department. I direct the development of motion-control algorithms and architect the reinforcement learning–based locomotion and teleoperation framework, overseeing system integration from algorithm design to real-world deployment.
+In parallel, I am a co-founder of the robotics startup [ZERITH](https://zerith.ai/), where I have led the Humanoid Robot, Motion Control, and VLA Post-Training departments. In these roles, I direct the development of motion-control algorithms and architect the reinforcement learning-based locomotion and teleoperation frameworks, overseeing end-to-end system integration from algorithm design to real-world deployment.
 
 My research interests include reinforcement learning (RL), vision-language-action (VLA) post-training, and imitation learning (IL), with a focus on embodied intelligence and humanoid control.
 
