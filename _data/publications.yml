@@ -1,4 +1,16 @@
 main:
+  - title: "PRIOR: Perceptive Learning for Humanoid Locomotion with Reference Gait Priors"
+    authors: <strong>Chenxi Han*</strong>, Shilu He*, Yi Cheng, Linqi Ye, Houde Liu
+    conference_short: arxiv
+    # conference: IEEE International Conference on Robotics and Automation <strong>(ICRA)</strong>, 2026.
+    pdf: https://prior-iros2026.github.io/resources/PRIOR.pdf
+    # code: https://github.com/MrGiovanni/ContinualLearning
+    # bibtex: https://bib.yliu.me/MICCAI23.txt
+    video: https://prior-iros2026.github.io/resources/PRIOR.mp4
+    image: ./assets/img/PRIOR.png
+    page: https://prior-iros2026.github.io/
+    arxiv: https://prior-iros2026.github.io/
+
   - title: "PMG: Parameterized Motion Generator for Human-like Locomotion Control"
     authors: <strong>Chenxi Han*</strong>, Yuheng Min*, Zihao Huang, Ao Hong, Hang Liu, Yi Cheng, Houde Liu
     conference_short: ICRA 2026
