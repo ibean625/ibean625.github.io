@@ -15,22 +15,22 @@ My research interests include reinforcement learning (RL), vision-language-actio
 ## Education and Work
 
 - **ZERITH (零次方)**, *Co-Founder* <br>
-  **04/2024 - Present** | Leading Motion Control, Humanoid Robot & VLA Post-Training Departments
+  **04/2024 - Present** 
 
 - **Tsinghua University (THUsz)**, *Master in Artificial Intelligence* <br>
-  **09/2024 - Present** | Advised by Prof. Houde Liu
+  **09/2024 - Present** 
 
 - **Harbin Institute of Technology, Shenzhen (HITsz)**, *B.Eng. in Robotics Engineering* <br>
-  **09/2020 - 06/2024** | **Rank: 1/67**  | Advised by Prof. Wenfu Xu & Prof. Jiaole Wang
+  **09/2020 - 06/2024** | **Rank: 1/67**  
 
 {% include_relative _includes/publications.md %}
 
 ## Selected Honors and Awards
 
 - **Venture50**, *for ZERITH*, **2025**
-- **Forbes China Excellence in Family Services Award**, *for ZERITH*, **2024**
-- **GGII Golden Globe Award**, *for ZERITH*, **2024**
-- **BDA Product Design Award**, *for ZERITH*, **2024**
+- **Forbes China Excellence in Family Services Award**, *for ZERITH*, **2025**
+- **GGII Golden Globe Award**, *for ZERITH*, **2025**
+- **BDA Product Design Award**, *for ZERITH*, **2025**
 - **Global 4th Place**, *IEEE ICRA Quadruped Robot Challenge (QRC)*, **2024**
 - **Outstanding Graduate**, *HITSZ*, **2024**
 - **Dean's Scholarship** (Top 1%), *HITSZ*, **2024**
