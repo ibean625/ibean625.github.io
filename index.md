@@ -12,17 +12,6 @@ My research interests include reinforcement learning (RL), vision-language-actio
 
 <span style="color:#e74d3c !important;"><strong>I am currently seeking Ph.D. opportunities starting in Fall 2027.</strong></span>
 
-## Education and Work
-
-- **ZERITH (零次方)**, *Co-Founder* <br>
-  **04/2024 - Present** 
-
-- **Tsinghua University (THUsz)**, *Master in Artificial Intelligence* <br>
-  **09/2024 - Present** 
-
-- **Harbin Institute of Technology, Shenzhen (HITsz)**, *B.Eng. in Robotics Engineering* <br>
-  **09/2020 - 06/2024** | **Rank: 1/67**  
-
 {% include_relative _includes/publications.md %}
 
 ## Selected Honors and Awards
