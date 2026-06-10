@@ -60,6 +60,20 @@
         <br>
         <email>WeChat: {{ site.wechat }}</email>
         {% endif %}
+        {% assign cv_en_url = site.cv_en_link | default: site.cv_link %}
+        {% if cv_en_url or site.cv_zh_link %}
+        <br>
+        <div class="cv-links">
+          <span class="cv-label">CV:</span>
+          {% if cv_en_url %}
+          <a href="{{ cv_en_url }}" target="_blank" rel="noopener">English</a>
+          {% endif %}
+          {% if site.cv_zh_link %}
+          {% if cv_en_url %}<span class="cv-separator">|</span>{% endif %}
+          <a href="{{ site.cv_zh_link }}" target="_blank" rel="noopener">中文</a>
+          {% endif %}
+        </div>
+        {% endif %}
 
         <br>
         <br>
@@ -68,12 +82,6 @@
         <a style="margin: 0 5px 0 0" href="{{ site.google_scholar }}">
           <i class="ai ai-google-scholar" style="font-size:1.2rem"></i>
         </a>  
-        {% endif %}
-
-        {% if site.cv_link %}
-        <a style="margin: 0 5px 0 0" href="{{ site.cv_link }}">
-          <i class="ai ai-cv" style="font-size:1.3rem;"></i>
-        </a>
         {% endif %}
 
         {% if site.github_link %}

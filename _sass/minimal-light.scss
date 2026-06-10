@@ -108,6 +108,40 @@ email {
     font-family: "Ubuntu Mono";
 }
 
+.cv-links {
+    font-size: 14px;
+    font-family: "Ubuntu Mono";
+    margin-top: 4px;
+}
+
+.cv-links .cv-label {
+    color: #595959;
+}
+
+.cv-links a {
+    color: #043361 !important;
+    font-weight: 600;
+}
+
+.cv-links .cv-separator {
+    color: #888;
+    margin: 0 4px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cv-links .cv-label {
+    color: #dadbdf;
+  }
+
+  .cv-links a {
+    color: #3eb7f0 !important;
+  }
+
+  .cv-links .cv-separator {
+    color: #777b8f;
+  }
+}
+
 .icon-button i{
   background:none;
   color:white;

@@ -86,6 +86,26 @@ email {
     font-family: "Ubuntu Mono";
 }
 
+.cv-links {
+    font-size: 14px;
+    font-family: "Ubuntu Mono";
+    margin-top: 4px;
+}
+
+.cv-links .cv-label {
+    color: #595959;
+}
+
+.cv-links a {
+    color: #043361 !important;
+    font-weight: 600;
+}
+
+.cv-links .cv-separator {
+    color: #888;
+    margin: 0 4px;
+}
+
 .icon-button i{
   background:none;
   color:white;
