@@ -18,3 +18,6 @@ gem "minima", "~> 2.0"
 gem "github-pages", group: :jekyll_plugins
 
 gem "webrick", "~> 1.8"
+
+# Keep local builds compatible with the macOS system Ruby 2.6 runtime.
+gem "ffi", "~> 1.16.3"
