@@ -221,8 +221,8 @@ export function setupPublicationMedia() {
       image.style.visibility = 'hidden';
       hideThumbnail();
       await Promise.all([
-        move(flight, imageFrames(from, to, to), 860, token, 0, 'linear'),
-        move(panel, [{ opacity: 0 }, { opacity: 1 }], 360, token, 280),
+        move(flight, imageFrames(from, to, to), 420, token, 0, 'linear'),
+        move(panel, [{ opacity: 0 }, { opacity: 1 }], 180, token, 90),
       ]);
     } else {
       await move(panel, [{ opacity: 0, transform: 'translateY(8px) scale(.985)' }, { opacity: 1, transform: 'none' }], 280, token);
