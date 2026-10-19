@@ -22,7 +22,7 @@ const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
         <h2 id="message-title">{t.title}</h2>
       </div>
     </header>
-    <form class="message-form" action={action} method="POST" enctype="multipart/form-data" data-endpoint={`https://formsubmit.co/ajax/${profile.messageFormId}`} data-recipient={profile.email} data-sending={t.sending} data-success={t.success} data-error={t.error} data-required={t.required} data-file-limit={t.fileLimit} data-remove-file={t.removeFile} aria-describedby="message-privacy">
+    <form class="message-form" action={action} method="POST" enctype="multipart/form-data" data-endpoint={`https://formsubmit.co/ajax/${profile.messageFormId}`} data-recipient={profile.email} data-sending={t.sending} data-success={t.success} data-error={t.error} data-required={t.required} data-file-limit={t.fileLimit} data-remove-file={t.removeFile} data-timeout={t.timeout} data-offline={t.offline} data-cancelled={t.cancelled} data-waiting={t.waiting} data-slow={t.slow} aria-describedby="message-privacy">
       <input type="hidden" name="_subject" value={t.mailSubject} />
       <input type="hidden" name="_template" value="table" />
       <input type="hidden" name="_captcha" value="false" />
@@ -49,12 +49,20 @@ const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
       </div>
       <p class="message-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
       <p class="message-privacy" id="message-privacy">{t.privacy}</p>
-      <p class="message-alternative" hidden data-error-email><a href={`mailto:${profile.email}`}>{t.alternative}</a></p>
+      <p class="message-alternative" hidden data-error-email><a data-compose-email href={`mailto:${profile.email}`}>{t.alternative}</a></p>
+      <p class="message-file-note" data-mail-file-note hidden>{t.fallbackFiles}</p>
     </form>
     </div>
     </div>
     </div>
     <div class="letter-receipt-wrap">
+    <section class="message-pending" hidden role="status" aria-live="polite">
+      <span class="pending-mark" aria-hidden="true"><Icon name="mail" /></span>
+      <h2>{t.pendingTitle}</h2>
+      <p data-pending-status>{t.waiting}</p>
+      <div class="pending-actions"><button type="button" class="text-link" data-cancel-delivery>{t.cancelWait}</button><a class="text-link" data-compose-email href={`mailto:${profile.email}`}>{t.emailFallback}</a></div>
+      <p class="message-file-note" data-mail-file-note hidden>{t.fallbackFiles}</p>
+    </section>
     <section class="message-thanks" hidden tabindex="-1" aria-labelledby="message-thanks-title" aria-describedby="message-thanks-description">
       <span class="letter-delivered" aria-hidden="true">✓</span>
       <div role="status" aria-live="polite">

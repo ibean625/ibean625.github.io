@@ -356,3 +356,27 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
 :is(.media-dialog, .cv-dialog, .contact-popover)::backdrop { animation: overlay-soften 160ms ease-out both; }
 @keyframes overlay-soften { from { opacity: 0; } to { opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { dialog::backdrop, [popover]::backdrop { animation: none !important; } }
+
+/* The writing surface is inside the envelope. Its two faces fold away,
+   rather than swapping an envelope for a second floating sheet. */
+.letter-dock { position: relative; inset: auto; width: 100%; aspect-ratio: auto; margin: 0; z-index: auto; pointer-events: auto; }
+.letter-dock .letter-envelope { width: 100%; height: auto; }
+.letter-dock .letter-front, .letter-dock .letter-flap { pointer-events: none; -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+.letter-dock .letter-front { z-index: 4; transform-origin: 50% 100%; }
+.letter-dock .letter-flap { z-index: 5; }
+.letter-envelope[data-open='true'] .letter-front { transform: perspective(1000px) rotateX(175deg); }
+.letter-envelope[data-open='true'] .letter-flap { z-index: 5; transform: perspective(1000px) rotateX(-175deg); }
+.letter-dock .letter-sheet { z-index: 2; transform: none; }
+.letter-postmark, .letter-seal { pointer-events: none; }
+.message-dialog[data-phase='waiting'] .letter-close { opacity: 1; pointer-events: auto; }
+.message-pending { width: 100%; padding: 34px 28px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); text-align: center; pointer-events: auto; box-shadow: 0 16px 50px rgb(0 0 0 / 12%); }
+.pending-mark { display: inline-grid; place-items: center; width: 48px; height: 48px; color: var(--accent); margin-bottom: 12px; }
+.pending-mark svg { width: 28px; height: 28px; }
+.message-pending h2, html[lang='zh-CN'] .message-pending h2 { font-size: 26px; }
+.message-pending p { margin: 16px auto 22px; max-width: 30ch; font-size: 14px; line-height: 1.8; color: var(--muted); }
+.pending-actions { display: flex; align-items: center; justify-content: center; gap: 10px 22px; flex-wrap: wrap; }
+.pending-actions button { padding: 0; border: 0; background: none; }
+.pending-actions .text-link { font-size: 12px; }
+.message-dialog:is([data-phase='opening'], [data-phase='packing'], [data-phase='closing'], [data-phase='flying']) .letter-front { will-change: transform; }
+
+.message-file-note { margin-top: 8px; color: var(--muted); font-size: 11px; }
