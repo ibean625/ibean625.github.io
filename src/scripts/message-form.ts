@@ -1,5 +1,19 @@
 const form = document.querySelector<HTMLFormElement>('.message-form');
 const dialog = document.querySelector<HTMLDialogElement>('#message-dialog');
+const thanks = dialog?.querySelector<HTMLElement>('.message-thanks');
+const composeHeading = dialog?.querySelector<HTMLElement>('[data-message-compose-heading]');
+
+function resetMessageView() {
+  if (!dialog || !form || !thanks || !composeHeading) return;
+  form.hidden = false;
+  composeHeading.hidden = false;
+  thanks.hidden = true;
+  delete dialog.dataset.state;
+  dialog.setAttribute('aria-labelledby', 'message-title');
+  dialog.setAttribute('aria-describedby', 'message-intro');
+  const status = form.querySelector<HTMLElement>('.message-status');
+  if (status) status.hidden = true;
+}
 
 if (dialog) {
   let returnFocus: HTMLElement | undefined;
@@ -14,11 +28,12 @@ if (dialog) {
       dialog.showModal();
     });
   });
-  dialog.querySelector('[data-close-message]')?.addEventListener('click', () => dialog.close());
+  dialog.querySelectorAll('[data-close-message]').forEach(button => button.addEventListener('click', () => dialog.close()));
   dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
   dialog.addEventListener('close', () => {
     document.body.style.overflow = previousOverflow;
     returnFocus?.focus({ preventScroll: true });
+    if (dialog.dataset.state === 'sent') resetMessageView();
   });
 }
 
@@ -72,6 +87,15 @@ if (form) {
       status.dataset.state = 'success';
       status.textContent = form.dataset.success ?? '';
       form.reset();
+      if (dialog && thanks && composeHeading) {
+        form.hidden = true;
+        composeHeading.hidden = true;
+        thanks.hidden = false;
+        dialog.dataset.state = 'sent';
+        dialog.setAttribute('aria-labelledby', 'message-thanks-title');
+        dialog.setAttribute('aria-describedby', 'message-thanks-description');
+        dialog.scrollTop = 0;
+      }
     } catch {
       status.dataset.state = 'error';
       status.textContent = form.dataset.error ?? '';
@@ -82,8 +106,8 @@ if (form) {
       button.disabled = false;
       button.textContent = button.dataset.label ?? '';
       form.removeAttribute('aria-busy');
-      status.hidden = false;
-      if (dialog?.open) status.focus({ preventScroll: true });
+      status.hidden = dialog?.dataset.state === 'sent';
+      if (dialog?.open) (dialog.dataset.state === 'sent' ? thanks : status)?.focus({ preventScroll: true });
     }
   });
 }

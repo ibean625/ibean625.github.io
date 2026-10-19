@@ -79,19 +79,17 @@ h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03
 .bio a { text-decoration: underline; text-decoration-color: var(--line); color: var(--accent); hyphens: none; }
 .bio a:hover { text-decoration-color: var(--accent); }
 .hero-links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 26px; margin-top: 24px; }
-.wechat-trigger, .wechat-copy { border: 0; padding: 0; background: transparent; }
-.wechat-popover { position: fixed; inset: auto; margin: 0; width: min(260px, calc(100vw - 40px)); max-height: calc(100dvh - 24px); overflow: auto; padding: 12px 18px 17px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 12px 35px rgb(0 0 0 / 12%); }
-.wechat-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.wechat-heading p { font-size: 13px; color: var(--muted); }
-.wechat-heading .icon-button { min-height: 30px; min-width: 30px; padding: 6px; margin-right: -6px; }
-.wechat-number { display: block; width: fit-content; margin-block: 5px 8px; color: var(--ink); font-size: 20px; font-variant-numeric: tabular-nums; }
-.wechat-copy { font-size: 13px; min-height: 34px; }
-.message-section { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 26px; margin-top: 64px; padding: 30px; border: 1px solid var(--line); border-radius: 16px; background: var(--soft); }
-.message-wave { display: grid; place-items: center; width: 62px; height: 62px; border-radius: 17px; background: var(--surface); font-size: 34px; transform: rotate(-7deg); }
-.message-invitation-copy h2, html[lang='zh-CN'] .message-invitation-copy h2 { font-size: 31px; line-height: 1.2; text-wrap: wrap; }
-.message-invitation-copy p { margin-top: 9px; font-size: 15px; line-height: 1.7; }
-.message-open { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: fit-content; min-height: 46px; padding: 10px 21px; border-radius: 999px; color: var(--paper); background: var(--accent); font-size: 14px; font-weight: 700; white-space: nowrap; transition: transform 160ms ease; }
-.message-open:hover { color: var(--paper); transform: translateY(-2px); }
+.contact-trigger, .contact-copy { border: 0; padding: 0; background: transparent; }
+.contact-popover { position: fixed; inset: auto; margin: 0; width: min(280px, calc(100vw - 40px)); max-height: calc(100dvh - 24px); overflow: auto; padding: 12px 18px 17px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 12px 35px rgb(0 0 0 / 12%); }
+.contact-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.contact-heading p { font-size: 13px; color: var(--muted); }
+.contact-heading .icon-button { min-height: 30px; min-width: 30px; padding: 6px; margin-right: -6px; }
+.contact-value { display: block; width: fit-content; max-width: 100%; margin-block: 5px 8px; color: var(--ink); font-size: 20px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.contact-popover[data-kind='email'] .contact-value { font-size: 17px; }
+.contact-copy { font-size: 13px; min-height: 34px; }
+.message-launcher { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border: 1px solid var(--line); border-radius: 50%; color: var(--accent); background: var(--soft); transition: transform 160ms ease, border-color 160ms ease; }
+.message-launcher svg { width: 21px; height: 21px; }
+.message-launcher:hover { border-color: var(--accent); transform: translateY(-2px); }
 .message-dialog { width: min(620px, calc(100% - 32px)); max-width: none; max-height: calc(100dvh - 40px); margin: auto; padding: 0; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 20px; color: var(--text); background: var(--paper); box-shadow: 0 24px 100px rgb(0 0 0 / 20%); }
 .message-dialog::backdrop { background: rgb(20 25 23 / 52%); backdrop-filter: blur(4px); }
 .message-dialog[open] { animation: message-arrive 160ms ease-out; }
@@ -102,6 +100,22 @@ h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03
 .message-greeting { margin-bottom: 13px; font-size: 29px; line-height: 1; }
 .message-dialog-header h2, html[lang='zh-CN'] .message-dialog-header h2 { font-size: 31px; line-height: 1.2; text-wrap: wrap; }
 .message-dialog-header #message-intro { margin-top: 10px; font-size: 14px; color: var(--muted); }
+.message-dialog[data-state='sent'] .message-dialog-header { justify-content: flex-end; margin-bottom: 0; }
+.message-thanks { padding: 0 10px 14px; text-align: center; animation: thanks-appear 400ms ease-out; }
+.message-thanks-art { width: 120px; height: 120px; margin: 0 auto 12px; color: var(--accent); }
+.message-thanks-art svg { display: block; width: 100%; height: 100%; }
+.thanks-halo { fill: var(--soft); }
+.thanks-check-disc { fill: var(--surface); stroke: var(--line); }
+.thanks-envelope { transform-origin: 60px 60px; animation: note-arrive 650ms cubic-bezier(.16, 1, .3, 1); }
+.thanks-check { stroke-dasharray: 25; stroke-dashoffset: 0; animation: note-check 450ms 250ms both; }
+.thanks-sparkles { opacity: .6; animation: note-sparkles 700ms ease-out; }
+.message-thanks-delivery { color: var(--muted); font-size: 12px; }
+.message-thanks h2, html[lang='zh-CN'] .message-thanks h2 { margin-top: 12px; font-size: 32px; line-height: 1.2; }
+.message-thanks-text { max-width: 43ch; margin: 20px auto 25px; font-size: 15px; line-height: 1.9; text-wrap: pretty; }
+@keyframes thanks-appear { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes note-arrive { from { opacity: 0; transform: translateY(16px) rotate(-10deg); } to { opacity: 1; transform: translateY(0) rotate(0); } }
+@keyframes note-check { from { stroke-dashoffset: 25; } to { stroke-dashoffset: 0; } }
+@keyframes note-sparkles { from { opacity: 0; transform: scale(.94); } to { opacity: .6; transform: scale(1); } }
 .message-form, .message-field { min-width: 0; }
 .message-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; border: 0; padding: 0; margin: 0; }
 .message-field label { display: block; margin-bottom: 8px; color: var(--ink); font-size: 14px; font-weight: 700; }
@@ -115,6 +129,8 @@ h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03
 .message-submit { min-height: 44px; border: 1px solid var(--accent); border-radius: 999px; padding: 9px 22px; background: var(--accent); color: var(--paper); font-size: 14px; font-weight: 700; }
 .message-submit:hover { filter: brightness(.92); }
 .message-submit:disabled { opacity: .6; cursor: wait; }
+.message-form[aria-busy='true'] .message-submit::after { content: ''; display: inline-block; width: 10px; height: 10px; margin-left: 9px; border: 1.5px solid currentColor; border-right-color: transparent; border-radius: 50%; vertical-align: -1px; animation: message-spin 800ms linear infinite; }
+@keyframes message-spin { to { transform: rotate(360deg); } }
 .message-status { flex: 1 1 180px; color: var(--accent); font-size: 14px; }
 .message-status[data-state='error'] { color: var(--text); }
 .message-privacy { margin-top: 18px; color: var(--muted); font-size: 12px; line-height: 1.7; }
@@ -279,11 +295,6 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
   .publication-actions { align-items: center; gap: 4px 18px; margin-top: 10px; }
   .publication-actions > a, .paper-summary summary { min-height: 38px; }
   .site-footer { margin-top: 40px; }
-  .message-section { grid-template-columns: 44px minmax(0, 1fr); gap: 15px 16px; margin-top: 44px; padding: 23px 20px; }
-  .message-wave { width: 44px; height: 44px; font-size: 27px; border-radius: 13px; align-self: start; }
-  .message-invitation-copy h2, html[lang='zh-CN'] .message-invitation-copy h2 { font-size: 26px; }
-  .message-invitation-copy p { font-size: 14px; }
-  .message-open { grid-column: 2; margin-top: 3px; }
 }
 @media (max-width: 600px) {
   .message-dialog { width: calc(100% - 20px); max-height: calc(100dvh - 24px); border-radius: 16px; }

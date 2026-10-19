@@ -1,0 +1,25 @@
+---
+import Icon from './Icon.astro';
+import { copy, profile, type Locale } from '../data/site';
+interface Props { locale: Locale; kind: 'email' | 'wechat'; }
+const { locale, kind } = Astro.props;
+const t = copy[locale];
+const email = kind === 'email';
+const value = email ? profile.email : profile.wechat;
+const heading = email ? t.emailAddressLabel : t.wechatNumberLabel;
+const label = email ? t.emailLabel : t.wechatLabel;
+const copyLabel = email ? t.copyEmail : t.copyWechat;
+const target = `${kind}-popover`;
+---
+<button class="text-link contact-trigger" type="button" popovertarget={target} aria-haspopup="dialog">{label}<Icon name="external" /></button>
+<div id={target} class="contact-popover" data-contact-popover data-kind={kind} popover role="dialog" aria-labelledby={`${kind}-heading`}>
+  <div class="contact-heading">
+    <p id={`${kind}-heading`}>{heading}</p>
+    <button class="icon-button" type="button" popovertarget={target} popovertargetaction="hide" aria-label={t.closeContact}><Icon name="close" /></button>
+  </div>
+  <a class="contact-value" href={email ? `mailto:${value}` : `tel:+86${value}`}>{value}</a>
+  <button class="text-link contact-copy" type="button" data-value={value} data-default={copyLabel} data-copied={t.contactCopied} data-fallback={t.contactCopyFallback} aria-live="polite">{copyLabel}</button>
+</div>
+<script>
+  import '../scripts/contact-popovers';
+</script>
