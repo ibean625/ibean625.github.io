@@ -1,11 +1,12 @@
 ---
-interface Props { name: 'arrow' | 'external' | 'download' | 'mail' | 'chat' | 'sun' | 'moon' | 'menu' | 'play' | 'up' | 'expand' | 'close'; class?: string; }
+interface Props { name: 'arrow' | 'external' | 'download' | 'mail' | 'attachment' | 'chat' | 'sun' | 'moon' | 'menu' | 'play' | 'up' | 'expand' | 'close'; class?: string; }
 const { name, class: className } = Astro.props;
 const paths = {
   arrow: 'M4 12h15m-6-6 6 6-6 6',
   external: 'M7 17 17 7M7 7h10v10',
   download: 'M12 3v12m-5-5 5 5 5-5M4 15v5h16v-5',
   mail: 'M3 6h18v13H3zM3 6l9 7 9-7',
+  attachment: 'm8 12 6-6a3 3 0 0 1 4 4l-8 8a5 5 0 0 1-7-7l9-9a7 7 0 0 1 10 10l-9 9',
   chat: 'M7 3h10a4 4 0 0 1 4 4v8a4 4 0 0 1-4 4h-7l-5 3v-4a4 4 0 0 1-2-3V7a4 4 0 0 1 4-4ZM8 9h.01M16 9h.01M8 13q4 4 8 0',
   sun: 'M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5',
   moon: 'M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z',

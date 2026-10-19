@@ -27,6 +27,8 @@ for (const [path, lang, text] of [['index.html', 'en', 'manipulation models'], [
   assert.ok(!/class="[^"]*menu-toggle/.test(html), `${path}: no hamburger menu`);
   assert.ok(/<form[^>]+class="message-form"[^>]+method="POST"/.test(html), `${path}: message form posts to the mail service`);
   assert.ok(html.includes('id="message-dialog"') && html.includes('data-open-message'), `${path}: message form opens on demand`);
+  assert.ok(html.includes('data-letter-envelope') && html.includes('data-letter-dock'), `${path}: continuous envelope animation`);
+  assert.ok(html.includes('enctype="multipart/form-data"') && html.includes('data-attachment-input'), `${path}: attachments supported`);
   assert.ok(!html.includes('name="subject"'), `${path}: no subject field`);
   for (const name of ['contact', 'message']) {
     assert.ok(new RegExp(`<[^>]+name="${name}"[^>]+required`).test(html), `${path}: required message field ${name}`);
@@ -48,4 +50,5 @@ async function checkPublicFiles(directory) {
   }
 }
 await checkPublicFiles(fileURLToPath(root));
+await access(new URL('letter-receipt/index.html', root));
 console.log('PASS: bilingual routes, section links, local assets, PRIOR status, and public-file boundaries.');

@@ -1,24 +1,25 @@
 ---
 import { copy, profile, type Locale } from '../data/site';
 import Icon from './Icon.astro';
+import LetterEnvelope from './LetterEnvelope.astro';
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const t = copy[locale].messageForm;
 const action = `https://formsubmit.co/${profile.messageFormId}`;
 const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
 ---
-<a id="message" class="message-launcher" href={`mailto:${profile.email}`} data-open-message aria-haspopup="dialog" aria-controls="message-dialog" aria-label={t.open} title={t.invitation}><Icon name="chat" /></a>
-<dialog id="message-dialog" class="message-dialog" aria-labelledby="message-title" aria-describedby="message-intro">
-  <div class="message-dialog-panel">
+<a id="message" class="message-launcher" href={`mailto:${profile.email}`} data-open-message aria-haspopup="dialog" aria-controls="message-dialog" aria-label={t.open} title={t.invitation}><LetterEnvelope /></a>
+<dialog id="message-dialog" class="message-dialog" aria-labelledby="message-title" aria-describedby="message-privacy" data-phase="closed">
+  <div class="letter-scene">
+    <button class="icon-button letter-close" type="button" data-close-message aria-label={t.close} autofocus><Icon name="close" /></button>
+    <div class="letter-dock" data-letter-dock></div>
+    <div class="message-dialog-panel letter-sheet" hidden inert>
     <header class="message-dialog-header">
       <div data-message-compose-heading>
-        <p class="message-greeting" aria-hidden="true">👋</p>
         <h2 id="message-title">{t.title}</h2>
-        <p id="message-intro">{t.intro}</p>
       </div>
-      <button class="icon-button" type="button" data-close-message aria-label={t.close} autofocus><Icon name="close" /></button>
     </header>
-    <form class="message-form" action={action} method="POST" data-endpoint={`https://formsubmit.co/ajax/${profile.messageFormId}`} data-sending={t.sending} data-success={t.success} data-error={t.error} data-required={t.required} aria-describedby="message-privacy">
+    <form class="message-form" action={action} method="POST" enctype="multipart/form-data" data-endpoint={`https://formsubmit.co/ajax/${profile.messageFormId}`} data-recipient={profile.email} data-sending={t.sending} data-success={t.success} data-error={t.error} data-required={t.required} data-file-limit={t.fileLimit} data-remove-file={t.removeFile} aria-describedby="message-privacy">
       <input type="hidden" name="_subject" value={t.mailSubject} />
       <input type="hidden" name="_template" value="table" />
       <input type="hidden" name="_captcha" value="false" />
@@ -27,34 +28,30 @@ const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
       <fieldset class="message-fields">
         <div class="message-field">
           <label for="message-contact">{t.contact}</label>
-          <input id="message-contact" type="text" name="contact" autocomplete="off" maxlength="254" required placeholder={t.contactPlaceholder} aria-describedby="message-contact-hint" />
-          <small id="message-contact-hint">{t.contactHint}</small>
+          <input id="message-contact" type="text" name="contact" autocomplete="off" maxlength="254" required placeholder={t.contactPlaceholder} />
         </div>
         <div class="message-field message-content">
           <label for="message-content">{t.content}</label>
           <textarea id="message-content" name="message" rows="5" maxlength="5000" required placeholder={t.contentPlaceholder}></textarea>
         </div>
       </fieldset>
+      <ul class="letter-attachments" aria-label={t.attachments} data-attachment-list></ul>
       <div class="message-submit-row">
+        <div class="letter-attachment-control">
+          <button class="letter-attach" type="button" data-add-attachment><Icon name="attachment" />{t.attachments}</button>
+          <span>{t.attachmentHint}</span>
+          <input type="file" name="attachment" multiple hidden data-attachment-input aria-label={t.attachments} />
+        </div>
         <button class="message-submit" type="submit" data-label={t.submit}>{t.submit}</button>
-        <p class="message-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
       </div>
+      <p class="message-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
       <p class="message-privacy" id="message-privacy">{t.privacy}</p>
-      <p class="message-alternative">{t.alternative} <a href={`mailto:${profile.email}`}>{profile.email}</a></p>
+      <p class="message-alternative" hidden data-error-email><a href={`mailto:${profile.email}`}>{t.alternative}</a></p>
     </form>
+    </div>
+    <div class="letter-receipt-wrap">
     <section class="message-thanks" hidden tabindex="-1" aria-labelledby="message-thanks-title" aria-describedby="message-thanks-description">
-      <div class="message-thanks-art" aria-hidden="true">
-        <svg viewBox="0 0 120 120" fill="none">
-          <circle cx="60" cy="60" r="50" class="thanks-halo" />
-          <g class="thanks-envelope" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="28" y="39" width="64" height="45" rx="7" />
-            <path d="m31 43 25 19a7 7 0 0 0 8 0l25-19M31 80l18-17m40 17L71 63" />
-          </g>
-          <circle cx="90" cy="34" r="15" class="thanks-check-disc" />
-          <path d="m83 34 5 5 9-10" class="thanks-check" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
-          <g class="thanks-sparkles" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 29v8m-4-4h8M99 82v8m-4-4h8" /></g>
-        </svg>
-      </div>
+      <span class="letter-delivered" aria-hidden="true">✓</span>
       <div role="status" aria-live="polite">
         <p class="message-thanks-delivery">{t.success}</p>
         <h2 id="message-thanks-title">{t.thanksTitle}</h2>
@@ -62,6 +59,7 @@ const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
       </div>
       <button class="message-submit" type="button" data-close-message>{t.thanksClose}</button>
     </section>
+    </div>
   </div>
 </dialog>
 <script>
