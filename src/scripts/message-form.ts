@@ -184,6 +184,11 @@ function setupLetter() {
     if (dialog.open) return;
     const token = ++epoch; closing = false; cancelMotion(); resetPose(); unlockScene();
     const from = envelope.getBoundingClientRect();
+    const iconWidth = envelope.offsetWidth;
+    const iconHeight = envelope.offsetHeight;
+    const iconTransform = getComputedStyle(envelope).transform;
+    const iconMatrix = iconTransform === 'none' ? new DOMMatrixReadOnly() : new DOMMatrixReadOnly(iconTransform);
+    const iconAngle = Math.atan2(iconMatrix.b, iconMatrix.a) * 180 / Math.PI;
     previousOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
     sheet.hidden = false; sheet.inert = true; pending.hidden = true; thanks.hidden = true;
     dock.append(envelope); envelope.append(sheet); envelope.removeAttribute('aria-hidden'); envelope.dataset.open = 'true';
@@ -191,12 +196,43 @@ function setupLetter() {
     dialog.showModal();
     if (deliveryState === 'pending' || deliveryState === 'sent') { freezeScene(); outgoing = false; settle(); return; }
     const bounds = object.getBoundingClientRect();
-    const start = `translate3d(${from.left - bounds.left}px,${from.top - bounds.top}px,0) scale(${from.width / bounds.width},${from.height / bounds.height})`;
+    object.style.transformOrigin = '50% 50%';
+    const dx = from.left + from.width / 2 - bounds.left - bounds.width / 2;
+    const dy = from.top + from.height / 2 - bounds.top - bounds.height / 2;
+    const startX = iconWidth / bounds.width;
+    const startY = iconHeight / bounds.height;
+    const closedX = Math.min(.82, bounds.height * .78 / (bounds.width * 11 / 16));
+    const closedY = bounds.width * closedX * 11 / 16 / bounds.height;
+    const smooth = (value: number) => {
+      const t = Math.max(0, Math.min(1, value));
+      return t * t * t * (t * (t * 6 - 15) + 10);
+    };
+    const rootFrames: Keyframe[] = [];
+    const frontFrames: Keyframe[] = [];
+    const flapFrames: Keyframe[] = [];
+    const inkFrames: Keyframe[] = [];
+    // One clock drives the flight, envelope proportions, folds and ink. The
+    // envelope reaches a natural landscape shape before opening into the form.
+    for (let i = 0; i <= 60; i++) {
+      const t = i / 60;
+      const travel = 1 - (1 - t) ** 3;
+      const grow = 1 - (1 - Math.min(1, t / .56)) ** 3;
+      const unfold = smooth((t - .3) / .7);
+      const sx = (startX + (closedX - startX) * grow) * (1 - unfold) + unfold;
+      const sy = (startY + (closedY - startY) * grow) * (1 - unfold) + unfold;
+      const x = (1 - travel) ** 2 * dx + 2 * (1 - travel) * travel * (dx * .15 - 12);
+      const y = (1 - travel) ** 2 * dy + 2 * (1 - travel) * travel * (dy * .25 - 18);
+      const angle = iconAngle * (1 - smooth(t)) - Math.sin(Math.PI * t) * 1.5;
+      rootFrames.push({ offset: t, transform: i === 60 ? 'none' : `translate3d(${x}px,${y}px,0) rotate(${angle}deg) scale(${sx},${sy})` });
+      flapFrames.push({ offset: t, transform: `perspective(1000px) rotateX(${-175 * smooth((t - .27) / .55)}deg)` });
+      frontFrames.push({ offset: t, transform: `perspective(1000px) rotateX(${175 * smooth((t - .39) / .59)}deg)` });
+      inkFrames.push({ offset: t, opacity: smooth((t - .55) / .34) });
+    }
     await Promise.all([
-      animate(object, [{ transform: start }, { transform: 'none' }], 520, token),
-      animate(front, [{ transform: 'perspective(1000px) rotateX(0deg)' }, { transform: 'perspective(1000px) rotateX(175deg)' }], 430, token, 30, 'cubic-bezier(.4,0,.2,1)'),
-      animate(flap, [{ transform: 'perspective(1000px) rotateX(0deg)' }, { transform: 'perspective(1000px) rotateX(-175deg)' }], 410, token, 0, 'cubic-bezier(.4,0,.2,1)'),
-      animate(content, [{ opacity: 0 }, { opacity: 1 }], 180, token, 90),
+      animate(object, rootFrames, 820, token, 0, 'linear'),
+      animate(front, frontFrames, 820, token, 0, 'linear'),
+      animate(flap, flapFrames, 820, token, 0, 'linear'),
+      animate(content, inkFrames, 820, token, 0, 'linear'),
     ]);
     if (token !== epoch || !dialog.open) return;
     phase('writing'); sheet.inert = false;
@@ -207,8 +243,13 @@ function setupLetter() {
     closing = true; const token = ++epoch; cancelMotion(true);
     if (outgoing || deliveryState === 'pending' || deliveryState === 'sent' || reducedMotion.matches) { dialog.close(); return; }
     freezeScene(); phase('closing'); sheet.inert = true;
-    const from = object.getBoundingClientRect(); const icon = iconSlot.getBoundingClientRect();
-    const target = `translate3d(${icon.left + (icon.width - 23) / 2 - from.left}px,${icon.top + (icon.height - 16) / 2 - from.top}px,0) scale(${23 / from.width},${16 / from.height})`;
+    const currentTransform = getComputedStyle(object).transform;
+    object.style.transform = 'none';
+    const bounds = object.getBoundingClientRect();
+    object.style.transform = currentTransform;
+    object.style.transformOrigin = '50% 50%';
+    const icon = iconSlot.getBoundingClientRect();
+    const target = `translate3d(${icon.left + icon.width / 2 - bounds.left - bounds.width / 2}px,${icon.top + icon.height / 2 - bounds.top - bounds.height / 2}px,0) scale(${23 / bounds.width},${16 / bounds.height})`;
     await Promise.all([
       animate(object, [{ transform: getComputedStyle(object).transform }, { transform: target }], 400, token),
       animate(front, [{ transform: getComputedStyle(front).transform }, { transform: 'perspective(1000px) rotateX(0deg)' }], 300, token),
