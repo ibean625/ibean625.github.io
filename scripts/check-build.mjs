@@ -26,7 +26,9 @@ for (const [path, lang, text] of [['index.html', 'en', 'manipulation models'], [
   assert.ok(html.includes('id="cv-dialog"') && html.includes('data-open-cv'), `${path}: CV opens in an in-page viewer`);
   assert.ok(!/class="[^"]*menu-toggle/.test(html), `${path}: no hamburger menu`);
   assert.ok(/<form[^>]+class="message-form"[^>]+method="POST"/.test(html), `${path}: message form posts to the mail service`);
-  for (const name of ['email', 'subject', 'message']) {
+  assert.ok(html.includes('id="message-dialog"') && html.includes('data-open-message'), `${path}: message form opens on demand`);
+  assert.ok(!html.includes('name="subject"'), `${path}: no subject field`);
+  for (const name of ['contact', 'message']) {
     assert.ok(new RegExp(`<[^>]+name="${name}"[^>]+required`).test(html), `${path}: required message field ${name}`);
   }
   for (const [video] of html.matchAll(/<video\b[^>]*>/g)) {

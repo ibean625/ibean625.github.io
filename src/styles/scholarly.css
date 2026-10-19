@@ -86,23 +86,38 @@ h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03
 .wechat-heading .icon-button { min-height: 30px; min-width: 30px; padding: 6px; margin-right: -6px; }
 .wechat-number { display: block; width: fit-content; margin-block: 5px 8px; color: var(--ink); font-size: 20px; font-variant-numeric: tabular-nums; }
 .wechat-copy { font-size: 13px; min-height: 34px; }
-.message-section { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 64px; margin-top: 64px; padding-top: 48px; border-top: 1px solid var(--line); }
-.message-intro > p { margin-top: 16px; font-size: 15px; }
-.message-intro .message-privacy { color: var(--muted); font-size: 13px; line-height: 1.8; max-width: 36ch; }
+.message-section { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 26px; margin-top: 64px; padding: 30px; border: 1px solid var(--line); border-radius: 16px; background: var(--soft); }
+.message-wave { display: grid; place-items: center; width: 62px; height: 62px; border-radius: 17px; background: var(--surface); font-size: 34px; transform: rotate(-7deg); }
+.message-invitation-copy h2, html[lang='zh-CN'] .message-invitation-copy h2 { font-size: 31px; line-height: 1.2; text-wrap: wrap; }
+.message-invitation-copy p { margin-top: 9px; font-size: 15px; line-height: 1.7; }
+.message-open { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: fit-content; min-height: 46px; padding: 10px 21px; border-radius: 999px; color: var(--paper); background: var(--accent); font-size: 14px; font-weight: 700; white-space: nowrap; transition: transform 160ms ease; }
+.message-open:hover { color: var(--paper); transform: translateY(-2px); }
+.message-dialog { width: min(620px, calc(100% - 32px)); max-width: none; max-height: calc(100dvh - 40px); margin: auto; padding: 0; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 20px; color: var(--text); background: var(--paper); box-shadow: 0 24px 100px rgb(0 0 0 / 20%); }
+.message-dialog::backdrop { background: rgb(20 25 23 / 52%); backdrop-filter: blur(4px); }
+.message-dialog[open] { animation: message-arrive 160ms ease-out; }
+@keyframes message-arrive { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.message-dialog-panel { padding: 28px; }
+.message-dialog-header { display: flex; justify-content: space-between; align-items: start; gap: 18px; margin-bottom: 24px; }
+.message-dialog-header .icon-button { flex-shrink: 0; margin: -10px -10px 0 0; }
+.message-greeting { margin-bottom: 13px; font-size: 29px; line-height: 1; }
+.message-dialog-header h2, html[lang='zh-CN'] .message-dialog-header h2 { font-size: 31px; line-height: 1.2; text-wrap: wrap; }
+.message-dialog-header #message-intro { margin-top: 10px; font-size: 14px; color: var(--muted); }
 .message-form, .message-field { min-width: 0; }
-.message-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 20px; border: 0; padding: 0; margin: 0; }
+.message-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; border: 0; padding: 0; margin: 0; }
 .message-field label { display: block; margin-bottom: 8px; color: var(--ink); font-size: 14px; font-weight: 700; }
-.message-field input, .message-field textarea { width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--text); font: inherit; font-size: 16px; line-height: 1.6; }
-.message-field textarea { display: block; resize: vertical; min-height: 160px; }
+.message-field input, .message-field textarea { width: 100%; min-width: 0; padding: 9px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--text); font: inherit; font-size: 16px; line-height: 1.6; }
+.message-field input::placeholder, .message-field textarea::placeholder { color: var(--muted); opacity: .85; }
+.message-field textarea { display: block; resize: vertical; min-height: 140px; padding: 13px; border: 1px solid var(--line); border-radius: 10px; background: var(--soft); }
 .message-field small { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; }
 .message-content { grid-column: 1 / -1; }
 .message-trap { display: none; }
 .message-submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 22px; }
-.message-submit { min-height: 44px; border: 1px solid var(--accent); border-radius: 4px; padding: 9px 22px; background: var(--accent); color: var(--paper); font-size: 14px; font-weight: 700; }
+.message-submit { min-height: 44px; border: 1px solid var(--accent); border-radius: 999px; padding: 9px 22px; background: var(--accent); color: var(--paper); font-size: 14px; font-weight: 700; }
 .message-submit:hover { filter: brightness(.92); }
 .message-submit:disabled { opacity: .6; cursor: wait; }
 .message-status { flex: 1 1 180px; color: var(--accent); font-size: 14px; }
 .message-status[data-state='error'] { color: var(--text); }
+.message-privacy { margin-top: 18px; color: var(--muted); font-size: 12px; line-height: 1.7; }
 .message-alternative { margin-top: 18px; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
 .message-alternative a { color: var(--accent); text-decoration: underline; }
 .portrait { grid-area: portrait; align-self: center; justify-self: end; width: 100%; max-width: 240px; }
@@ -264,9 +279,17 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
   .publication-actions { align-items: center; gap: 4px 18px; margin-top: 10px; }
   .publication-actions > a, .paper-summary summary { min-height: 38px; }
   .site-footer { margin-top: 40px; }
-  .message-section { grid-template-columns: minmax(0, 1fr); gap: 24px; margin-top: 44px; padding-top: 34px; }
-  .message-intro .message-privacy { max-width: none; margin-top: 10px; }
-  .message-fields { grid-template-columns: minmax(0, 1fr); gap: 18px; }
+  .message-section { grid-template-columns: 44px minmax(0, 1fr); gap: 15px 16px; margin-top: 44px; padding: 23px 20px; }
+  .message-wave { width: 44px; height: 44px; font-size: 27px; border-radius: 13px; align-self: start; }
+  .message-invitation-copy h2, html[lang='zh-CN'] .message-invitation-copy h2 { font-size: 26px; }
+  .message-invitation-copy p { font-size: 14px; }
+  .message-open { grid-column: 2; margin-top: 3px; }
+}
+@media (max-width: 600px) {
+  .message-dialog { width: calc(100% - 20px); max-height: calc(100dvh - 24px); border-radius: 16px; }
+  .message-dialog-panel { padding: 22px 20px; }
+  .message-dialog-header h2, html[lang='zh-CN'] .message-dialog-header h2 { font-size: 27px; }
+  .message-dialog-header { margin-bottom: 22px; }
 }
 @media (max-width: 360px) {
   h1, html[lang='zh-CN'] h1 { font-size: 39px; }

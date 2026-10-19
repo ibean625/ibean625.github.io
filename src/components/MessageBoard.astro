@@ -1,45 +1,56 @@
 ---
 import { copy, profile, type Locale } from '../data/site';
+import Icon from './Icon.astro';
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const t = copy[locale].messageForm;
 const action = `https://formsubmit.co/${profile.messageFormId}`;
 const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
 ---
-<section class="message-section" id="message" aria-labelledby="message-title">
-  <div class="message-intro">
-    <h2 id="message-title">{t.title}</h2>
-    <p>{t.intro}</p>
-    <p class="message-privacy" id="message-privacy">{t.privacy}</p>
+<section class="message-section" id="message" aria-labelledby="message-invitation-title">
+  <span class="message-wave" aria-hidden="true">👋</span>
+  <div class="message-invitation-copy">
+    <h2 id="message-invitation-title">{t.invitation}</h2>
+    <p>{t.invitationText}</p>
   </div>
-  <form class="message-form" action={action} method="POST" data-endpoint={`https://formsubmit.co/ajax/${profile.messageFormId}`} data-sending={t.sending} data-success={t.success} data-error={t.error} data-required={t.required} aria-describedby="message-privacy">
-    <input type="hidden" name="_subject" value="[Website message] Chenxi Han" />
+  <a class="message-open" href={`mailto:${profile.email}`} data-open-message aria-haspopup="dialog" aria-controls="message-dialog">{t.open}<Icon name="arrow" /></a>
+</section>
+<dialog id="message-dialog" class="message-dialog" aria-labelledby="message-title" aria-describedby="message-intro">
+  <div class="message-dialog-panel">
+    <header class="message-dialog-header">
+      <div>
+        <p class="message-greeting" aria-hidden="true">👋</p>
+        <h2 id="message-title">{t.title}</h2>
+        <p id="message-intro">{t.intro}</p>
+      </div>
+      <button class="icon-button" type="button" data-close-message aria-label={t.close} autofocus><Icon name="close" /></button>
+    </header>
+    <form class="message-form" action={action} method="POST" data-endpoint={`https://formsubmit.co/ajax/${profile.messageFormId}`} data-sending={t.sending} data-success={t.success} data-error={t.error} data-required={t.required} aria-describedby="message-privacy">
+    <input type="hidden" name="_subject" value={t.mailSubject} />
     <input type="hidden" name="_template" value="table" />
     <input type="hidden" name="_captcha" value="false" />
     <input type="hidden" name="_url" value={formUrl} />
     <div class="message-trap" aria-hidden="true"><label>Website<input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label></div>
     <fieldset class="message-fields">
       <div class="message-field">
-        <label for="message-email">{t.email}</label>
-        <input id="message-email" type="email" name="email" autocomplete="email" inputmode="email" maxlength="254" required aria-describedby="message-email-hint" />
-        <small id="message-email-hint">{t.emailHint}</small>
-      </div>
-      <div class="message-field">
-        <label for="message-subject">{t.subject}</label>
-        <input id="message-subject" type="text" name="subject" maxlength="120" required />
+        <label for="message-contact">{t.contact}</label>
+        <input id="message-contact" type="text" name="contact" autocomplete="off" maxlength="254" required placeholder={t.contactPlaceholder} aria-describedby="message-contact-hint" />
+        <small id="message-contact-hint">{t.contactHint}</small>
       </div>
       <div class="message-field message-content">
         <label for="message-content">{t.content}</label>
-        <textarea id="message-content" name="message" rows="6" maxlength="5000" required></textarea>
+        <textarea id="message-content" name="message" rows="5" maxlength="5000" required placeholder={t.contentPlaceholder}></textarea>
       </div>
     </fieldset>
     <div class="message-submit-row">
       <button class="message-submit" type="submit" data-label={t.submit}>{t.submit}</button>
       <p class="message-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
     </div>
+    <p class="message-privacy" id="message-privacy">{t.privacy}</p>
     <p class="message-alternative">{t.alternative} <a href={`mailto:${profile.email}`}>{profile.email}</a></p>
   </form>
-</section>
+  </div>
+</dialog>
 <script>
   import '../scripts/message-form';
 </script>
