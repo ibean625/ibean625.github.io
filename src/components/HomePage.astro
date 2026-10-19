@@ -24,6 +24,11 @@ const cv = profile.cv[locale];
         <a class="text-link" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub<Icon name="external" /></a>
         <a class="text-link" href={cv} target="_blank" rel="noopener noreferrer" data-open-cv aria-haspopup="dialog">{t.cv}<Icon name="external" /></a>
       </div>
+      <dl class="profile-contacts" aria-label={t.contactDetails}>
+        <div><dt>{t.emailLabel}</dt><dd><a href={`mailto:${profile.email}`}>{profile.email}</a></dd></div>
+        <div><dt>{t.wechatLabel}</dt><dd><a href={`tel:+86${profile.wechat}`}>{profile.wechat}</a></dd></div>
+        <div><dt>{t.rednoteLabel}</dt><dd><a href={profile.rednote} target="_blank" rel="noopener noreferrer">{t.rednoteProfile}<Icon name="external" /></a></dd></div>
+      </dl>
     </div>
   </section>
 
@@ -35,6 +40,10 @@ const cv = profile.cv[locale];
     <ol class="publications-list">
       {publications.map((paper) => (
         <li class="publication" id={`paper-${paper.id}`}>
+          <div class="publication-heading">
+            <div class="publication-meta"><span>{paper.year}</span><span aria-hidden="true">/</span><span>{paper.id === 'prior' ? t.preprint : paper.conference_short}</span>{paper.notes && <span class="publication-note">{paper.notes === 'Oral Pitch' ? t.oral : paper.notes}</span>}</div>
+            <h3><a href={paper.pdf} target="_blank" rel="noopener noreferrer">{paper.title}</a></h3>
+          </div>
           <div class="publication-media" data-paper-media data-title={paper.title} data-image={paper.image} data-video={paper.video}>
             <a class="publication-thumbnail" href={paper.image} target="_blank" rel="noopener noreferrer" data-open-figure aria-haspopup="dialog" aria-label={`${t.enlargeFigure}: ${paper.title}`}>
               <img src={paper.image} alt={locale === 'zh' ? `${paper.title} 的研究配图` : `Figure from ${paper.title}`} width="600" height="400" loading="lazy" decoding="async" />
@@ -43,9 +52,7 @@ const cv = profile.cv[locale];
             </a>
             {paper.video && <a class="thumbnail-play" href={paper.video} target="_blank" rel="noopener noreferrer" data-open-video aria-haspopup="dialog" aria-label={`${t.playPreview}: ${paper.title}`}><Icon name="play" /></a>}
           </div>
-          <div class="publication-main">
-            <div class="publication-meta"><span>{paper.year}</span><span aria-hidden="true">/</span><span>{paper.id === 'prior' ? t.preprint : paper.conference_short}</span>{paper.notes && <span class="publication-note">{paper.notes === 'Oral Pitch' ? t.oral : paper.notes}</span>}</div>
-            <h3><a href={paper.pdf} target="_blank" rel="noopener noreferrer">{paper.title}</a></h3>
+          <div class="publication-body">
             <p class="authors" set:html={paper.authors} />
             <div class="publication-actions">
               <a href={paper.pdf} target="_blank" rel="noopener noreferrer">PDF<Icon name="external" /></a>
