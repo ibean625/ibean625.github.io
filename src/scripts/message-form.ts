@@ -200,6 +200,7 @@ function setupLetter() {
     ]);
     if (token !== epoch || !dialog.open) return;
     phase('writing'); sheet.inert = false;
+    if (deliveryState === 'error') showDraft();
   }
   async function closeLetter() {
     if (!dialog.open || closing) return;
