@@ -1,109 +1,58 @@
-type Spark = { angle: number; speed: number; life: number; size: number; color: string };
-
-/** Three bright, silent fireworks around the receipt; its text stays clear. */
+/** A few translucent heart bubbles drift quietly above the thank-you card. */
 export function celebrateLetter(container: HTMLElement, card: HTMLElement, reducedMotion: MediaQueryList): () => void {
   if (reducedMotion.matches || document.hidden) return () => {};
   const layer = document.createElement('div');
   layer.className = 'letter-celebration';
   layer.setAttribute('aria-hidden', 'true');
-  const canvas = document.createElement('canvas');
-  canvas.className = 'letter-fireworks';
-  canvas.dataset.fireworks = '';
-  layer.append(canvas); container.append(layer);
-  const owner = container.closest<HTMLElement>('.message-dialog');
-  const context = canvas.getContext('2d');
-  if (!context) { layer.remove(); return () => {}; }
-  if (owner) owner.dataset.celebrating = 'true';
-  const width = innerWidth;
-  const height = innerHeight;
-  const ratio = Math.min(devicePixelRatio || 1, 2);
-  canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
-  context.scale(ratio, ratio);
+  container.append(layer);
   const rect = card.getBoundingClientRect();
-  const mobile = width < 600;
-  const top = Math.max(65, Math.min(height * .18, rect.top - 100));
-  const palette = ['#ffc45b', '#4de4ff', '#ff74b7', '#b49cff'];
-  const burstPositions = mobile
-    ? [{ x: width * .22, y: top, at: .35 }, { x: width * .78, y: top + 28, at: .85 }, { x: width * .5, y: Math.max(65, top - 26), at: 1.3 }]
-    : [{ x: Math.max(120, rect.left - 70), y: height * .35, at: .35 }, { x: Math.min(width - 120, rect.right + 70), y: height * .28, at: .85 }, { x: width * .5, y: Math.max(95, rect.top - 80), at: 1.3 }];
-  const bursts = burstPositions.map((position, index) => ({
-    ...position,
-    color: palette[index],
-    sparks: Array.from({ length: mobile ? 72 : 90 }, (_, i): Spark => ({
-      angle: i / (mobile ? 72 : 90) * Math.PI * 2 + (Math.random() - .5) * .07,
-      speed: (mobile ? 235 : 275) * (.65 + Math.random() * .45),
-      life: 1.3 + Math.random() * .5,
-      size: 1.6 + Math.random() * 1.3,
-      color: i % 5 === 0 ? '#fff5d9' : palette[(index + (i % 7 === 0 ? 1 : 0)) % palette.length],
-    })),
-  }));
-  let frame = 0;
+  const animations: Animation[] = [];
+  const count = innerWidth < 600 ? 7 : 9;
   let stopped = false;
-  const start = performance.now();
+  let watchdog: ReturnType<typeof setTimeout>;
   const cleanup = () => {
     if (stopped) return;
-    stopped = true; cancelAnimationFrame(frame); clearTimeout(watchdog); layer.remove();
-    canvas.width = 0; canvas.height = 0;
-    if (owner) delete owner.dataset.celebrating;
+    stopped = true;
+    clearTimeout(watchdog);
+    animations.forEach(animation => animation.cancel());
+    layer.remove();
     document.removeEventListener('visibilitychange', hide);
     window.removeEventListener('resize', cleanup);
     reducedMotion.removeEventListener('change', cleanup);
   };
   const hide = () => { if (document.hidden) cleanup(); };
-  const watchdog = setTimeout(cleanup, 3600);
   document.addEventListener('visibilitychange', hide);
   window.addEventListener('resize', cleanup);
   reducedMotion.addEventListener('change', cleanup);
-  function position(spark: Spark, age: number) {
-    const travel = (1 - Math.exp(-1.6 * age)) / 1.6;
-    return { x: Math.cos(spark.angle) * spark.speed * travel, y: Math.sin(spark.angle) * spark.speed * travel + 34 * age * age };
+
+  for (let i = 0; i < count; i++) {
+    const bubble = document.createElement('span');
+    bubble.className = 'letter-heart-bubble';
+    bubble.dataset.heartBubble = '';
+    const size = 25 + Math.random() * 13;
+    const x = rect.left + rect.width * (.08 + .84 * i / (count - 1)) + (Math.random() - .5) * 14;
+    const y = rect.top + 12 + Math.random() * 24;
+    Object.assign(bubble.style, {
+      left: `${Math.max(8, Math.min(innerWidth - size - 8, x - size / 2))}px`,
+      top: `${y}px`, width: `${size}px`, height: `${size}px`,
+    });
+    const heart = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    heart.setAttribute('viewBox', '0 0 24 24');
+    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    path.setAttribute('d', 'M12 20S3 14.5 3 8.5a4.5 4.5 0 0 1 9-1 4.5 4.5 0 0 1 9 1C21 14.5 12 20 12 20Z');
+    heart.append(path); bubble.append(heart); layer.append(bubble);
+    const drift = (Math.random() - .5) * 28;
+    const rise = 115 + Math.random() * 55;
+    const turn = (Math.random() - .5) * 14;
+    const animation = bubble.animate([
+      { transform: 'translate3d(0,0,0) scale(.88)', opacity: 0 },
+      { transform: `translate3d(${drift * .2}px,${-rise * .22}px,0) rotate(${turn * .3}deg) scale(.98)`, opacity: .5, offset: .24 },
+      { transform: `translate3d(${drift * .7}px,${-rise * .7}px,0) rotate(${turn}deg) scale(1.04)`, opacity: .4, offset: .72 },
+      { transform: `translate3d(${drift}px,${-rise}px,0) rotate(${turn * .7}deg) scale(1.08)`, opacity: 0 },
+    ], { duration: 2800 + Math.random() * 650, delay: i * 100, easing: 'linear', fill: 'both' });
+    animations.push(animation);
   }
-  function draw(now: number) {
-    if (stopped) return;
-    const time = (now - start) / 1000;
-    if (time > 3.25) { cleanup(); return; }
-    const ctx = context!;
-    ctx.clearRect(0, 0, width, height);
-    ctx.save();
-    // Paint over the backdrop, but leave the entire receipt unobstructed.
-    ctx.beginPath(); ctx.rect(0, 0, width, height);
-    ctx.rect(rect.left - 8, rect.top - 8, rect.width + 16, rect.height + 16);
-    ctx.clip('evenodd');
-    ctx.globalCompositeOperation = 'lighter';
-    for (const burst of bursts) {
-      const age = time - burst.at;
-      if (age < 0 && age > -.35) {
-        const progress = (age + .35) / .35;
-        const launchY = height + 20;
-        const y = launchY + (burst.y - launchY) * progress;
-        ctx.globalAlpha = .85;
-        ctx.strokeStyle = burst.color; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.moveTo(burst.x, y + 28); ctx.lineTo(burst.x, y); ctx.stroke();
-        continue;
-      }
-      if (age < 0) continue;
-      if (age < .25) {
-        const glow = ctx.createRadialGradient(burst.x, burst.y, 0, burst.x, burst.y, 26);
-        glow.addColorStop(0, '#fff9db'); glow.addColorStop(.2, burst.color); glow.addColorStop(1, 'transparent');
-        ctx.globalAlpha = (1 - age / .25) * .9; ctx.fillStyle = glow;
-        ctx.fillRect(burst.x - 26, burst.y - 26, 52, 52);
-      }
-      for (const spark of burst.sparks) {
-        if (age >= spark.life) continue;
-        const current = position(spark, age);
-        const tail = position(spark, Math.max(0, age - .16));
-        const alpha = Math.pow(1 - age / spark.life, .9);
-        ctx.globalAlpha = alpha * .95; ctx.strokeStyle = spark.color; ctx.lineWidth = spark.size;
-        ctx.shadowColor = spark.color; ctx.shadowBlur = 4;
-        ctx.beginPath(); ctx.moveTo(burst.x + tail.x, burst.y + tail.y); ctx.lineTo(burst.x + current.x, burst.y + current.y); ctx.stroke();
-        ctx.shadowBlur = 0;
-        ctx.globalAlpha = alpha; ctx.fillStyle = '#fff7dc';
-        ctx.beginPath(); ctx.arc(burst.x + current.x, burst.y + current.y, spark.size * .72, 0, Math.PI * 2); ctx.fill();
-      }
-    }
-    ctx.restore();
-    frame = requestAnimationFrame(draw);
-  }
-  frame = requestAnimationFrame(draw);
+  watchdog = setTimeout(cleanup, 4300);
+  void Promise.all(animations.map(animation => animation.finished.catch(() => {}))).then(cleanup);
   return cleanup;
 }
