@@ -1,3 +1,4 @@
+@font-face { font-family: 'Caveat'; src: url('/fonts/letter/caveat.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
 /* Editorial palette and typography adapted from Scholar Pages by Jiaxin Peng.
    Original theme: https://github.com/jxpeng98/astro-theme-scholars
    MIT license: licenses/Scholarly-MIT.txt */
@@ -87,37 +88,51 @@ h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03
 .contact-value { display: block; width: fit-content; max-width: 100%; margin-block: 5px 8px; color: var(--ink); font-size: 20px; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
 .contact-popover[data-kind='email'] .contact-value { font-size: 17px; }
 .contact-copy { font-size: 13px; min-height: 34px; }
-.message-launcher { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 38px; border: 0; border-radius: 8px; color: var(--accent); background: transparent; isolation: isolate; }
-.message-launcher:hover { background: var(--soft); }
-.letter-envelope { display: block; position: relative; width: 30px; height: 21px; color: var(--accent); perspective: 800px; transform-origin: 0 0; }
-.letter-back { position: absolute; inset: 0; border: 1px solid var(--accent); border-radius: 4%; background: var(--soft); }
+/* The icon, envelope and letter share one moving object. */
+.message-launcher { position: relative; display: inline-flex; align-items: center; gap: 8px; min-height: 34px; color: var(--accent); font-size: 14px; font-weight: 700; isolation: isolate; }
+.message-launcher-icon { display: grid; place-items: center; width: 25px; height: 26px; flex: none; }
+.message-launcher-label { border-bottom: 1px solid transparent; transition: border-color 180ms; }
+.message-launcher:hover .message-launcher-label { border-color: currentColor; }
+.message-hint { position: absolute; left: 50%; bottom: calc(100% + 10px); z-index: 4; width: max-content; max-width: 220px; padding: 7px 11px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); box-shadow: 0 4px 16px rgb(0 0 0 / 7%); color: var(--text); font-size: 12px; font-weight: 400; line-height: 1.5; opacity: 0; visibility: hidden; transform: translate(-50%, 4px); transition: opacity 160ms, transform 160ms, visibility 160ms; pointer-events: none; }
+.message-launcher:focus-visible .message-hint { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+@media (hover: hover) { .message-launcher:hover .message-hint { opacity: 1; visibility: visible; transform: translate(-50%, 0); } }
+.letter-envelope { display: block; position: relative; width: 23px; height: 16px; color: var(--accent); transform-origin: 50% 50%; }
+.message-launcher-icon .letter-envelope { transition: transform 260ms cubic-bezier(.2,.8,.2,1); }
+.message-launcher:hover .letter-envelope { transform: translateY(-1px) rotate(-6deg); }
+.letter-back { position: absolute; inset: 0; border: 1px solid currentColor; border-radius: 5px; background: var(--soft); }
 .letter-front { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; overflow: visible; }
-.letter-front path { fill: var(--surface); stroke: var(--accent); stroke-width: 1.3; vector-effect: non-scaling-stroke; }
-.letter-front .letter-seams { fill: none; opacity: .65; }
-.letter-flap { position: absolute; top: 0; left: 0; width: 100%; height: 64%; z-index: 4; overflow: visible; transform: rotateX(0deg); transform-origin: 50% 0; }
-.letter-flap path { fill: var(--soft); stroke: var(--accent); stroke-width: 1.3; vector-effect: non-scaling-stroke; }
-.letter-envelope[data-open='true'] .letter-flap { transform: rotateX(-180deg); z-index: 1; }
-.letter-seal { position: absolute; left: 45%; top: 55%; width: 10%; aspect-ratio: 1; border-radius: 50%; background: var(--accent); border: 2px solid var(--paper); z-index: 5; opacity: 0; }
-.letter-envelope[data-sealed='true'] .letter-seal { opacity: 1; animation: letter-seal 220ms ease-out; }
-@keyframes letter-seal { from { transform: scale(.6); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.message-dialog { width: 100%; height: 100dvh; max-width: none; max-height: none; inset: 0; margin: 0; padding: 16px; overflow: hidden; border: 0; border-radius: 0; color: var(--text); background: transparent; }
+.letter-front path { fill: var(--surface); stroke: currentColor; stroke-opacity: .65; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.letter-front .letter-seams { fill: none; opacity: .55; }
+.letter-flap { position: absolute; top: 0; left: 0; width: 100%; height: 64%; z-index: 4; overflow: visible; transform: perspective(900px) rotateX(0deg); transform-origin: 50% 0; }
+.letter-flap path { fill: var(--paper); stroke: currentColor; stroke-opacity: .65; stroke-width: 1; vector-effect: non-scaling-stroke; }
+.letter-envelope[data-open='true'] .letter-flap { transform: perspective(900px) rotateX(-178deg); z-index: 1; }
+.letter-seal { position: absolute; left: 46%; top: 55%; width: 8%; aspect-ratio: 1; border-radius: 50%; background: var(--accent); border: 2px solid var(--paper); z-index: 5; opacity: 0; }
+.letter-envelope[data-sealed='true'] .letter-seal { opacity: 1; }
+.message-dialog { width: 100%; height: 100dvh; max-width: none; max-height: none; inset: 0; margin: 0; padding: 28px 20px; overflow: hidden; border: 0; border-radius: 0; color: var(--text); background: transparent; }
 .message-dialog[open] { display: grid; place-items: center; }
-.message-dialog::backdrop { background: rgb(20 25 23 / 48%); backdrop-filter: blur(4px); }
-.letter-scene { width: min(620px, 100%); height: min(680px, calc(100dvh - 32px)); position: relative; isolation: isolate; }
-.letter-close { position: absolute; top: 8px; right: 8px; z-index: 20; color: var(--ink); background: var(--paper); box-shadow: 0 3px 12px rgb(0 0 0 / 7%); }
-.letter-dock { position: absolute; bottom: 0; left: 0; right: 0; width: min(350px, 90%); aspect-ratio: 16 / 11; margin-inline: auto; z-index: 2; }
+.message-dialog::backdrop { background: rgb(20 25 23 / 36%); animation: letter-backdrop 260ms ease-out both; }
+.message-dialog[data-phase='closing']::backdrop { animation: letter-backdrop-out 380ms ease-in both; }
+@keyframes letter-backdrop-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes letter-backdrop { from { opacity: 0; } to { opacity: 1; } }
+.letter-scene { display: grid; align-items: center; width: min(460px, 100%); position: relative; isolation: isolate; }
+.letter-object { position: relative; width: 100%; transform-origin: 0 0; }
+.message-dialog:is([data-phase='opening'], [data-phase='packing'], [data-phase='closing'], [data-phase='flying']) :is(.letter-object, .letter-sheet, .letter-flap, .letter-content, .letter-dock) { will-change: transform, opacity; }
+.letter-close { position: absolute; top: 10px; right: 10px; z-index: 20; color: var(--muted); opacity: 0; pointer-events: none; transition: opacity 150ms; }
+.message-dialog:is([data-phase='writing'], [data-phase='sent']) .letter-close { opacity: 1; pointer-events: auto; }
+.letter-dock { position: absolute; bottom: 14px; left: 0; right: 0; width: 76%; aspect-ratio: 16 / 11; margin-inline: auto; z-index: 4; pointer-events: none; }
 .letter-dock .letter-envelope { width: 100%; height: 100%; }
-.letter-dock .letter-back { box-shadow: 0 12px 32px rgb(0 0 0 / 13%); }
-.letter-sheet { position: absolute; inset: 0 0 60px; z-index: 3; padding: 30px; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 12px; background: var(--paper); box-shadow: 0 15px 55px rgb(0 0 0 / 12%); transform-origin: 0 0; }
-.message-dialog[data-phase='unfolding'] .letter-sheet { z-index: 1; }
-.message-dialog-header { margin-bottom: 25px; padding-right: 25px; }
-.message-dialog-header h2, html[lang='zh-CN'] .message-dialog-header h2 { font-size: 30px; line-height: 1.2; text-wrap: wrap; }
+.letter-dock .letter-back { box-shadow: 0 14px 36px rgb(0 0 0 / 9%); }
+.letter-sheet { position: relative; z-index: 3; max-height: calc(100dvh - 64px); padding: 30px 32px 25px; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); box-shadow: 0 20px 65px rgb(0 0 0 / 12%); transform-origin: 0 0; }
+.message-dialog-header { margin-bottom: 23px; padding-right: 28px; }
+.message-dialog-header h2, html[lang='zh-CN'] .message-dialog-header h2 { font-size: 28px; line-height: 1.2; text-wrap: wrap; }
 .message-form, .message-field { min-width: 0; }
 .message-fields { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; border: 0; padding: 0; margin: 0; }
-.message-field label { display: block; margin-bottom: 7px; color: var(--ink); font-size: 13px; font-weight: 700; }
+.message-field label { display: block; margin-bottom: 5px; color: var(--text); font-size: 12px; font-weight: 400; }
 .message-field input, .message-field textarea { width: 100%; min-width: 0; padding: 8px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; color: var(--text); font: inherit; font-size: 16px; line-height: 1.6; }
+.message-field input, .message-field textarea { font-family: 'Caveat', 'LXGW WenKai TC', 'Kaiti SC', 'STKaiti', cursive; font-size: 21px; line-height: 1.65; color: var(--accent); font-weight: 400; }
+.message-field input:focus-visible, .message-field textarea:focus-visible { outline: 0; border-bottom-color: var(--accent); box-shadow: 0 1px 0 var(--accent); }
 .message-field input::placeholder, .message-field textarea::placeholder { color: var(--muted); opacity: .85; }
-.message-field textarea { display: block; resize: vertical; min-height: 140px; padding: 12px; border: 1px solid var(--line); border-radius: 7px; background: var(--surface); }
+.message-field textarea { display: block; resize: vertical; min-height: 116px; max-height: 260px; padding: 9px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
 .message-content { grid-column: 1 / -1; }
 .message-trap { display: none; }
 .message-submit-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 20px; }
@@ -141,7 +156,7 @@ h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03
 .message-alternative { margin-top: 8px; font-size: 12px; color: var(--accent); }
 .message-alternative a { text-decoration: underline; }
 .letter-receipt-wrap { position: absolute; inset: 0; z-index: 10; display: grid; place-items: center; pointer-events: none; }
-.message-thanks { width: 100%; max-height: 100%; padding: 38px 30px; overflow: auto; border: 1px solid var(--line); border-radius: 16px; color: var(--text); background: var(--paper); box-shadow: 0 16px 50px rgb(0 0 0 / 15%); text-align: center; pointer-events: auto; animation: thanks-appear 400ms ease-out; }
+.message-thanks { width: 100%; max-height: calc(100dvh - 64px); padding: 38px 30px; overflow: auto; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: var(--paper); box-shadow: 0 16px 50px rgb(0 0 0 / 15%); text-align: center; pointer-events: auto; animation: thanks-appear 400ms ease-out; }
 .letter-delivered { display: grid; place-items: center; width: 46px; height: 46px; margin: 0 auto 18px; border: 1px solid var(--line); border-radius: 50%; background: var(--soft); color: var(--accent); font-size: 24px; }
 .message-thanks-delivery { color: var(--muted); font-size: 12px; }
 .message-thanks h2, html[lang='zh-CN'] .message-thanks h2 { margin-top: 12px; font-size: 30px; line-height: 1.2; }
@@ -308,10 +323,9 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
   .site-footer { margin-top: 40px; }
 }
 @media (max-width: 600px) {
-  .message-dialog { padding: 12px; }
-  .letter-scene { height: min(640px, calc(100dvh - 24px)); }
-  .letter-sheet { padding: 24px 18px; }
-  .message-dialog-header h2, html[lang='zh-CN'] .message-dialog-header h2 { font-size: 26px; }
+  .message-dialog { padding: 24px 16px; }
+  .letter-sheet { padding: 27px 23px 23px; max-height: calc(100dvh - 48px); }
+  .message-dialog-header h2, html[lang='zh-CN'] .message-dialog-header h2 { font-size: 25px; }
   .message-dialog-header { margin-bottom: 22px; }
   .message-thanks { padding: 32px 22px; }
 }
@@ -325,3 +339,13 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { transition: none !important; animation: none !important; }
 }
+
+/* A light ink trace follows the letter, then dissolves. */
+.letter-postmark { position: absolute; right: 7%; bottom: 9%; width: 28%; height: 24%; z-index: 5; color: var(--accent); stroke: currentColor; stroke-width: 1; opacity: 0; transform: rotate(-9deg); }
+.letter-envelope[data-sealed='true'] .letter-postmark { opacity: .45; transition: opacity 250ms; }
+.letter-envelope[data-sealed='true'] .letter-seal { background: transparent; border: 1px solid var(--accent); opacity: .6; }
+.letter-wind { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; overflow: visible; pointer-events: none; }
+.letter-wind path { fill: none; stroke: var(--paper); stroke-width: 1; stroke-linecap: round; opacity: 0; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.message-dialog[data-phase='flying'] .letter-wind path { animation: letter-breeze 950ms cubic-bezier(.45,0,.65,.8) both; }
+.message-dialog[data-phase='flying'] .letter-wind path + path { animation-delay: 70ms; stroke-width: .6; }
+@keyframes letter-breeze { 0% { opacity: 0; stroke-dashoffset: 1; } 35% { opacity: .28; } 80% { opacity: .12; } 100% { opacity: 0; stroke-dashoffset: 0; } }

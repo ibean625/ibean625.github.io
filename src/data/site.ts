@@ -142,7 +142,7 @@ export const copy = {
     nav: { about: '关于', publications: '学术论文' },
     messageForm: {
       invitation: '有想聊的吗？',
-      open: '来聊一聊',
+      open: '写信给我',
       title: '写封信给我',
       privacy: '只寄给我，不会公开。',
       contact: '你的联系方式',

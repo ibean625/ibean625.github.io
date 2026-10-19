@@ -8,12 +8,15 @@ const t = copy[locale].messageForm;
 const action = `https://formsubmit.co/${profile.messageFormId}`;
 const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
 ---
-<a id="message" class="message-launcher" href={`mailto:${profile.email}`} data-open-message aria-haspopup="dialog" aria-controls="message-dialog" aria-label={t.open} title={t.invitation}><LetterEnvelope /></a>
+<a id="message" class="message-launcher" href={`mailto:${profile.email}`} data-open-message aria-haspopup="dialog" aria-controls="message-dialog" aria-label={t.open} aria-describedby="message-invitation"><span class="message-launcher-icon"><LetterEnvelope /></span><span class="message-launcher-label">{t.open}</span><span id="message-invitation" class="message-hint" role="tooltip">{t.invitation}</span></a>
 <dialog id="message-dialog" class="message-dialog" aria-labelledby="message-title" aria-describedby="message-privacy" data-phase="closed">
+  <svg class="letter-wind" aria-hidden="true"><path data-wind-path pathLength="1" /><path data-wind-path pathLength="1" /></svg>
   <div class="letter-scene">
     <button class="icon-button letter-close" type="button" data-close-message aria-label={t.close} autofocus><Icon name="close" /></button>
+    <div class="letter-object" data-letter-object>
     <div class="letter-dock" data-letter-dock></div>
     <div class="message-dialog-panel letter-sheet" hidden inert>
+    <div class="letter-content">
     <header class="message-dialog-header">
       <div data-message-compose-heading>
         <h2 id="message-title">{t.title}</h2>
@@ -32,7 +35,7 @@ const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
         </div>
         <div class="message-field message-content">
           <label for="message-content">{t.content}</label>
-          <textarea id="message-content" name="message" rows="5" maxlength="5000" required placeholder={t.contentPlaceholder}></textarea>
+          <textarea id="message-content" name="message" rows="3" maxlength="5000" required placeholder={t.contentPlaceholder}></textarea>
         </div>
       </fieldset>
       <ul class="letter-attachments" aria-label={t.attachments} data-attachment-list></ul>
@@ -48,6 +51,8 @@ const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
       <p class="message-privacy" id="message-privacy">{t.privacy}</p>
       <p class="message-alternative" hidden data-error-email><a href={`mailto:${profile.email}`}>{t.alternative}</a></p>
     </form>
+    </div>
+    </div>
     </div>
     <div class="letter-receipt-wrap">
     <section class="message-thanks" hidden tabindex="-1" aria-labelledby="message-thanks-title" aria-describedby="message-thanks-description">
