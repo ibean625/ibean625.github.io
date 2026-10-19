@@ -1,13 +1,21 @@
 type PublicationMediaSource = { title: string; image: string; video?: string; alt: string };
 
 export function setupPublicationMedia() {
-  const dialog = document.querySelector<HTMLDialogElement>('#media-dialog');
-  const title = document.querySelector<HTMLElement>('#media-dialog-title');
-  const image = document.querySelector<HTMLImageElement>('#media-dialog-image');
-  const player = document.querySelector<HTMLVideoElement>('#media-dialog-video');
-  const original = document.querySelector<HTMLAnchorElement>('#media-original');
-  const errorMessage = document.querySelector<HTMLElement>('[data-media-error]');
-  if (!dialog || !title || !image || !player || !original || !errorMessage) return;
+  const dialogElement = document.querySelector<HTMLDialogElement>('#media-dialog');
+  const titleElement = document.querySelector<HTMLElement>('#media-dialog-title');
+  const imageElement = document.querySelector<HTMLImageElement>('#media-dialog-image');
+  const playerElement = document.querySelector<HTMLVideoElement>('#media-dialog-video');
+  const originalElement = document.querySelector<HTMLAnchorElement>('#media-original');
+  const errorElement = document.querySelector<HTMLElement>('[data-media-error]');
+  if (!dialogElement || !titleElement || !imageElement || !playerElement || !originalElement || !errorElement) return;
+  const dialog = dialogElement;
+  const title = titleElement;
+  const image = imageElement;
+  const player = playerElement;
+  const original = originalElement;
+  const errorMessage = errorElement;
+  const panel = dialog.querySelector<HTMLElement>('.media-dialog-panel')!;
+  const flightLayer = dialog.querySelector<HTMLElement>('.media-flight-layer')!;
 
   const mediaElements = [...document.querySelectorAll<HTMLElement>('[data-paper-media]')];
   const requested = new WeakSet<HTMLElement>();
@@ -17,6 +25,70 @@ export function setupPublicationMedia() {
   let active: PublicationMediaSource | undefined;
   let returnFocus: HTMLElement | undefined;
   let previousOverflow = '';
+  let thumbnail: HTMLImageElement | undefined;
+  let thumbnailVisibility = '';
+  let flyingImage: HTMLImageElement | undefined;
+  let transition = 0;
+  const motions = new Set<Animation>();
+
+  function stopMotion(preserve = false) {
+    if (preserve) motions.forEach(animation => { try { animation.commitStyles(); } catch {} });
+    motions.forEach(animation => animation.cancel());
+    motions.clear();
+  }
+  async function move(element: HTMLElement, frames: Keyframe[], duration: number, token: number, delay = 0) {
+    if (token !== transition || !dialog.open) return;
+    if (reduceMotion.matches) {
+      const last = frames.at(-1)!;
+      if (last.opacity !== undefined) element.style.opacity = String(last.opacity);
+      if (last.transform !== undefined) element.style.transform = String(last.transform);
+      return;
+    }
+    let animation: Animation;
+    try { animation = element.animate(frames, { duration, delay, fill: 'both', easing: 'cubic-bezier(.4,0,.6,1)' }); }
+    catch {
+      const last = frames.at(-1)!;
+      if (last.opacity !== undefined) element.style.opacity = String(last.opacity);
+      if (last.transform !== undefined) element.style.transform = String(last.transform);
+      return;
+    }
+    motions.add(animation);
+    let watchdog: ReturnType<typeof setTimeout>;
+    try {
+      await Promise.race([animation.finished.catch(() => {}), new Promise<void>(resolve => { watchdog = setTimeout(resolve, duration + delay + 180); })]);
+      if (token !== transition || !dialog.open) return;
+      const last = frames.at(-1)!;
+      if (last.opacity !== undefined) element.style.opacity = String(last.opacity);
+      if (last.transform !== undefined) element.style.transform = String(last.transform);
+    } finally { clearTimeout(watchdog!); motions.delete(animation); animation.cancel(); }
+  }
+  function paintedBox(element: HTMLImageElement) {
+    const rect = element.getBoundingClientRect();
+    const source = element === image && thumbnail?.naturalWidth ? thumbnail : element;
+    const width = source.naturalWidth || source.width || rect.width;
+    const height = source.naturalHeight || source.height || rect.height;
+    const scale = Math.min(rect.width / width, rect.height / height);
+    return { left: rect.left + (rect.width - width * scale) / 2, top: rect.top + (rect.height - height * scale) / 2, width: width * scale, height: height * scale };
+  }
+  function makeFlight(box: ReturnType<typeof paintedBox>) {
+    flyingImage?.remove();
+    const flight = document.createElement('img');
+    flight.src = active!.image;
+    flight.alt = '';
+    flight.decoding = 'async';
+    flight.className = 'media-flight-image';
+    Object.assign(flight.style, { left: `${box.left}px`, top: `${box.top}px`, width: `${box.width}px`, height: `${box.height}px` });
+    flightLayer.append(flight);
+    flyingImage = flight;
+    return flight;
+  }
+  function hideThumbnail() {
+    if (thumbnail) thumbnail.style.visibility = 'hidden';
+  }
+  function restoreThumbnail() {
+    if (thumbnail) thumbnail.style.visibility = thumbnailVisibility;
+  }
+
 
   function clearVideo(video: HTMLVideoElement) {
     video.pause();
@@ -90,23 +162,71 @@ export function setupPublicationMedia() {
     }
   }
 
-  function openMedia(trigger: HTMLElement, mode: 'figure' | 'video') {
+  async function openMedia(trigger: HTMLElement, mode: 'figure' | 'video') {
+    if (dialog.open) return;
     const paper = trigger.closest('.publication');
     const media = paper?.querySelector<HTMLElement>('[data-paper-media]');
     if (!media?.dataset.image) return;
     stopPreviews();
-    active = {
-      title: media.dataset.title ?? '',
-      image: media.dataset.image,
-      video: media.dataset.video,
-      alt: media.querySelector('img')?.alt ?? '',
-    };
+    active = { title: media.dataset.title ?? '', image: media.dataset.image, video: media.dataset.video, alt: media.querySelector('img')?.alt ?? '' };
+    thumbnail = media.querySelector<HTMLImageElement>('img') ?? undefined;
+    thumbnailVisibility = thumbnail?.style.visibility ?? '';
+    const from = thumbnail ? paintedBox(thumbnail) : undefined;
     returnFocus = trigger;
-    title!.textContent = active.title;
+    title.textContent = active.title;
+    if (thumbnail?.naturalWidth) { image.width = thumbnail.naturalWidth; image.height = thumbnail.naturalHeight; }
     previousOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
-    dialog!.showModal();
+    const token = ++transition;
+    dialog.dataset.state = 'opening';
+    panel.inert = true;
+    panel.style.opacity = '0';
+    dialog.showModal();
     showMode(mode);
+    if (mode === 'figure' && from && from.width > 0 && from.height > 0 && !reduceMotion.matches) {
+      const to = paintedBox(image);
+      const flight = makeFlight(to);
+      image.style.visibility = 'hidden';
+      hideThumbnail();
+      const start = `translate3d(${from.left - to.left}px,${from.top - to.top}px,0) scale(${from.width / to.width},${from.height / to.height})`;
+      await Promise.all([
+        move(flight, [{ transform: start }, { transform: 'none' }], 720, token),
+        move(panel, [{ opacity: 0 }, { opacity: 1 }], 460, token, 120),
+      ]);
+    } else {
+      await move(panel, [{ opacity: 0, transform: 'translateY(8px) scale(.985)' }, { opacity: 1, transform: 'none' }], 280, token);
+    }
+    if (token !== transition || !dialog.open) return;
+    image.style.removeProperty('visibility');
+    flyingImage?.remove(); flyingImage = undefined;
+    panel.style.opacity = '1'; panel.inert = false;
+    dialog.dataset.state = 'open';
+    dialog.querySelector<HTMLButtonElement>('[data-close-media]')?.focus({ preventScroll: true });
+  }
+
+  async function closeMedia() {
+    if (!dialog.open || dialog.dataset.state === 'closing') return;
+    const currentFlight = flyingImage?.getBoundingClientRect();
+    const startOpacity = getComputedStyle(panel).opacity;
+    const token = ++transition;
+    stopMotion(true);
+    dialog.dataset.state = 'closing';
+    panel.inert = true;
+    player.pause();
+    if (dialog.dataset.mode === 'figure' && thumbnail?.isConnected && !reduceMotion.matches) {
+      const from = currentFlight ?? paintedBox(image);
+      const to = paintedBox(thumbnail);
+      const flight = makeFlight(from);
+      image.style.visibility = 'hidden'; hideThumbnail();
+      const end = `translate3d(${to.left - from.left}px,${to.top - from.top}px,0) scale(${to.width / from.width},${to.height / from.height})`;
+      await Promise.all([
+        move(flight, [{ transform: 'none' }, { transform: end }], 620, token),
+        move(panel, [{ opacity: startOpacity }, { opacity: 0 }], 240, token),
+      ]);
+    } else {
+      await move(panel, [{ opacity: startOpacity, transform: 'none' }, { opacity: 0, transform: 'translateY(8px) scale(.985)' }], 240, token);
+    }
+    if (token === transition && dialog.open) dialog.close();
   }
 
   document.querySelectorAll<HTMLAnchorElement>('[data-open-figure], [data-open-video]').forEach(trigger => {
@@ -115,37 +235,45 @@ export function setupPublicationMedia() {
       // new tab, and keep the links useful when JavaScript is unavailable.
       if (event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
       event.preventDefault();
-      openMedia(trigger, trigger.hasAttribute('data-open-video') ? 'video' : 'figure');
+      void openMedia(trigger, trigger.hasAttribute('data-open-video') ? 'video' : 'figure');
     });
   });
-  dialog.querySelector('[data-close-media]')?.addEventListener('click', () => dialog.close());
+  dialog.querySelector('[data-close-media]')?.addEventListener('click', () => { void closeMedia(); });
+  dialog.addEventListener('cancel', event => { event.preventDefault(); void closeMedia(); });
   dialog.addEventListener('click', event => {
-    if (event.target === dialog) dialog.close();
+    if (event.target === dialog) void closeMedia();
   });
   dialog.querySelectorAll<HTMLButtonElement>('[data-media-mode]').forEach(button => {
-    button.addEventListener('click', () => showMode(button.dataset.mediaMode === 'video' ? 'video' : 'figure'));
+    button.addEventListener('click', () => { if (dialog.dataset.state === 'open') showMode(button.dataset.mediaMode === 'video' ? 'video' : 'figure'); });
   });
   player.addEventListener('error', () => {
     if (dialog.open && dialog.dataset.mode === 'video') errorMessage.hidden = false;
   });
   dialog.addEventListener('close', () => {
+    ++transition; stopMotion(); restoreThumbnail();
+    flyingImage?.remove(); flyingImage = undefined;
+    image.style.removeProperty('visibility'); panel.style.removeProperty('opacity'); panel.style.removeProperty('transform'); panel.inert = false;
+    dialog.dataset.state = 'closed';
     clearVideo(player);
     player.hidden = true;
     image.hidden = true;
     image.removeAttribute('src');
     errorMessage.hidden = true;
     document.body.style.overflow = previousOverflow;
-    active = undefined;
+    active = undefined; thumbnail = undefined;
     returnFocus?.focus({ preventScroll: true });
   });
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       stopPreviews();
       player.pause();
+    } else {
+      motions.forEach(animation => { try { animation.finish(); } catch {} });
     }
   });
   window.addEventListener('blur', stopPreviews);
-  reduceMotion.addEventListener('change', stopPreviews);
+  reduceMotion.addEventListener('change', () => { stopPreviews(); if (reduceMotion.matches) motions.forEach(animation => { try { animation.finish(); } catch {} }); });
+  window.addEventListener('resize', () => motions.forEach(animation => { try { animation.finish(); } catch {} }));
   hoverPointer.addEventListener('change', stopPreviews);
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => { if (!entry.isIntersecting) stopPreview(entry.target as HTMLElement); });

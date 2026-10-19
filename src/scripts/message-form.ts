@@ -1,4 +1,5 @@
 import { deliverLetter, DeliveryError } from './letter-delivery';
+import { celebrateLetter } from './celebration';
 
 type Attachment = { file: File; preview?: string };
 type DeliveryState = 'idle' | 'pending' | 'sent' | 'error';
@@ -45,6 +46,8 @@ function setupLetter() {
   let failureMessage = '';
   let previousOverflow = '';
   let activeRequest: AbortController | undefined;
+  let clearCelebration = () => {};
+  let celebrationDelay: ReturnType<typeof setTimeout>;
 
   const phase = (value: string) => { dialog.dataset.phase = value; };
   function applyFrame(element: HTMLElement | SVGElement, frame: Keyframe) {
@@ -161,7 +164,12 @@ function setupLetter() {
   function showReceipt() {
     unlockScene();
     phase('sent'); sheet.hidden = true; sheet.inert = true; object.style.opacity = '0';
-    pending.hidden = true; thanks.hidden = false; receiptSeen = true;
+    pending.hidden = true; thanks.hidden = false;
+    const firstView = !receiptSeen;
+    receiptSeen = true;
+    if (firstView) celebrationDelay = setTimeout(() => {
+      if (dialog.open && dialog.dataset.phase === 'sent') clearCelebration = celebrateLetter(scene, thanks, reducedMotion);
+    }, 180);
     dialog.setAttribute('aria-labelledby', 'message-thanks-title');
     dialog.setAttribute('aria-describedby', 'message-thanks-description');
     form.reset(); clearAttachments(); thanks.focus({ preventScroll: true });
@@ -303,6 +311,7 @@ function setupLetter() {
   dialog.addEventListener('cancel', event => { event.preventDefault(); void closeLetter(); });
   dialog.addEventListener('click', event => { if (event.target === dialog || event.target === scene) void closeLetter(); });
   dialog.addEventListener('close', () => {
+    clearTimeout(celebrationDelay); clearCelebration();
     ++epoch; closing = false; cancelMotion(); resetPose(); unlockScene();
     sheet.hidden = true; sheet.inert = true; object.append(sheet); envelope.dataset.open = 'false'; envelope.setAttribute('aria-hidden', 'true'); iconSlot.append(envelope);
     pending.hidden = true; thanks.hidden = true; phase('closed'); document.body.style.overflow = previousOverflow; launcher.focus({ preventScroll: true });

@@ -202,7 +202,14 @@ h2 { font-size: 38px; line-height: 1.08; letter-spacing: -0.02em; }
 .paper-summary { display: contents; }
 .paper-summary summary { cursor: pointer; font-size: 12px; font-weight: 700; color: var(--accent); min-height: 30px; line-height: 30px; }
 .paper-summary p { flex-basis: 100%; padding: 12px 17px; margin-top: 5px; border-left: 2px solid var(--line); font-size: 14px; background: var(--soft); }
-.media-dialog { width: min(1100px, calc(100% - 48px)); max-width: none; max-height: calc(100dvh - 48px); margin: auto; padding: 0; overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 8px; color: var(--text); background: var(--surface); box-shadow: 0 24px 100px rgb(0 0 0 / 25%); }
+.media-dialog { position: fixed; inset: 0; width: 100%; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 24px; overflow: hidden; border: 0; border-radius: 0; color: var(--text); background: transparent; }
+.media-dialog[open] { display: grid; place-items: center; }
+.media-dialog-panel { width: min(1100px, 100%); max-height: calc(100dvh - 48px); overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); box-shadow: 0 24px 100px rgb(0 0 0 / 25%); transform-origin: 50% 50%; }
+.media-flight-layer { position: fixed; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+.media-flight-image { position: absolute; display: block; max-width: none; object-fit: fill; background: #fff; transform-origin: 0 0; will-change: transform; }
+.media-dialog[data-state='closing']::backdrop { animation: media-backdrop-out 620ms ease-in-out both; }
+.media-dialog[data-state='closing'][data-mode='video']::backdrop { animation-duration: 240ms; }
+@keyframes media-backdrop-out { from { opacity: 1; } to { opacity: 0; } }
 .media-dialog::backdrop { background: rgb(20 25 23 / 50%); }
 .media-dialog-header { display: flex; align-items: start; justify-content: space-between; gap: 24px; padding: 18px 22px; border-bottom: 1px solid var(--line); }
 .media-dialog-header h2 { margin-block: 4px; font-size: 24px; line-height: 1.3; letter-spacing: 0; text-wrap: pretty; }
@@ -281,7 +288,8 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
   .publication-actions > a, .paper-summary summary { min-height: 34px; }
   .thumbnail-play { width: 40px; height: 40px; }
   .figure-expand { opacity: 1; }
-  .media-dialog { width: calc(100% - 20px); max-height: calc(100dvh - 20px); }
+  .media-dialog { padding: 10px; }
+  .media-dialog-panel { max-height: calc(100dvh - 20px); }
   .media-dialog-header { padding: 12px 10px 12px 15px; gap: 12px; }
   .media-dialog-header h2, html[lang='zh-CN'] .media-dialog-header h2 { font-size: 19px; line-height: 1.35; }
   .media-stage { padding: 10px; }
@@ -380,3 +388,6 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
 .message-dialog:is([data-phase='opening'], [data-phase='packing'], [data-phase='closing'], [data-phase='flying']) .letter-front { will-change: transform; }
 
 .message-file-note { margin-top: 8px; color: var(--muted); font-size: 11px; }
+
+.letter-celebration { position: fixed; inset: 0; z-index: 8; pointer-events: none; overflow: hidden; contain: layout style size; }
+.letter-confetti { position: absolute; display: block; pointer-events: none; will-change: transform, opacity; }

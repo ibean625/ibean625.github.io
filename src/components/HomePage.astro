@@ -67,7 +67,8 @@ const cv = profile.cv[locale];
     </ol>
   </section>
   <CvPreview locale={locale} />
-  <dialog class="media-dialog" id="media-dialog" aria-labelledby="media-dialog-title">
+  <dialog class="media-dialog" id="media-dialog" aria-labelledby="media-dialog-title" data-state="closed">
+    <div class="media-flight-layer" aria-hidden="true"></div>
     <div class="media-dialog-panel">
       <header class="media-dialog-header">
         <h2 id="media-dialog-title"></h2>
