@@ -1,0 +1,45 @@
+---
+import { copy, profile, type Locale } from '../data/site';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = copy[locale].messageForm;
+const action = `https://formsubmit.co/${profile.messageFormId}`;
+const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
+---
+<section class="message-section" id="message" aria-labelledby="message-title">
+  <div class="message-intro">
+    <h2 id="message-title">{t.title}</h2>
+    <p>{t.intro}</p>
+    <p class="message-privacy" id="message-privacy">{t.privacy}</p>
+  </div>
+  <form class="message-form" action={action} method="POST" data-endpoint={`https://formsubmit.co/ajax/${profile.messageFormId}`} data-sending={t.sending} data-success={t.success} data-error={t.error} data-required={t.required} aria-describedby="message-privacy">
+    <input type="hidden" name="_subject" value="[Website message] Chenxi Han" />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_url" value={formUrl} />
+    <div class="message-trap" aria-hidden="true"><label>Website<input type="text" name="_honey" tabindex="-1" autocomplete="off" /></label></div>
+    <fieldset class="message-fields">
+      <div class="message-field">
+        <label for="message-email">{t.email}</label>
+        <input id="message-email" type="email" name="email" autocomplete="email" inputmode="email" maxlength="254" required aria-describedby="message-email-hint" />
+        <small id="message-email-hint">{t.emailHint}</small>
+      </div>
+      <div class="message-field">
+        <label for="message-subject">{t.subject}</label>
+        <input id="message-subject" type="text" name="subject" maxlength="120" required />
+      </div>
+      <div class="message-field message-content">
+        <label for="message-content">{t.content}</label>
+        <textarea id="message-content" name="message" rows="6" maxlength="5000" required></textarea>
+      </div>
+    </fieldset>
+    <div class="message-submit-row">
+      <button class="message-submit" type="submit" data-label={t.submit}>{t.submit}</button>
+      <p class="message-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
+    </div>
+    <p class="message-alternative">{t.alternative} <a href={`mailto:${profile.email}`}>{profile.email}</a></p>
+  </form>
+</section>
+<script>
+  import '../scripts/message-form';
+</script>

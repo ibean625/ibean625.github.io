@@ -14,7 +14,7 @@ for (const [path, lang, text] of [['index.html', 'en', 'manipulation models'], [
   assert.ok(!html.includes('id="research"') && !html.includes('project-grid'), `${path}: no duplicate research section`);
   assert.ok(!html.includes('id="contact"') && !html.includes('class="honors"') && !html.includes('service-note'), `${path}: no contact, honors, or service section`);
   assert.ok(!html.includes('id="experience"') && !html.includes('#experience'), `${path}: no removed experience section or navigation`);
-  for (const id of ['about', 'publications']) {
+  for (const id of ['about', 'publications', 'message']) {
     assert.ok(html.includes(`id="${id}"`), `${path}: section ${id}`);
   }
   const papers = [...html.matchAll(/<li class="publication"[\s\S]*?<\/li>/g)];
@@ -25,6 +25,10 @@ for (const [path, lang, text] of [['index.html', 'en', 'manipulation models'], [
   assert.ok(html.includes('id="media-dialog"'), `${path}: accessible media preview is present`);
   assert.ok(html.includes('id="cv-dialog"') && html.includes('data-open-cv'), `${path}: CV opens in an in-page viewer`);
   assert.ok(!/class="[^"]*menu-toggle/.test(html), `${path}: no hamburger menu`);
+  assert.ok(/<form[^>]+class="message-form"[^>]+method="POST"/.test(html), `${path}: message form posts to the mail service`);
+  for (const name of ['email', 'subject', 'message']) {
+    assert.ok(new RegExp(`<[^>]+name="${name}"[^>]+required`).test(html), `${path}: required message field ${name}`);
+  }
   for (const [video] of html.matchAll(/<video\b[^>]*>/g)) {
     assert.ok(!/\ssrc=/.test(video) && video.includes('preload="none"'), `${path}: videos load only after interaction`);
   }

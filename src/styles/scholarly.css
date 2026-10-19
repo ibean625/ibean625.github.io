@@ -86,6 +86,25 @@ h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03
 .wechat-heading .icon-button { min-height: 30px; min-width: 30px; padding: 6px; margin-right: -6px; }
 .wechat-number { display: block; width: fit-content; margin-block: 5px 8px; color: var(--ink); font-size: 20px; font-variant-numeric: tabular-nums; }
 .wechat-copy { font-size: 13px; min-height: 34px; }
+.message-section { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 64px; margin-top: 64px; padding-top: 48px; border-top: 1px solid var(--line); }
+.message-intro > p { margin-top: 16px; font-size: 15px; }
+.message-intro .message-privacy { color: var(--muted); font-size: 13px; line-height: 1.8; max-width: 36ch; }
+.message-form, .message-field { min-width: 0; }
+.message-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 20px; border: 0; padding: 0; margin: 0; }
+.message-field label { display: block; margin-bottom: 8px; color: var(--ink); font-size: 14px; font-weight: 700; }
+.message-field input, .message-field textarea { width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); color: var(--text); font: inherit; font-size: 16px; line-height: 1.6; }
+.message-field textarea { display: block; resize: vertical; min-height: 160px; }
+.message-field small { display: block; margin-top: 6px; color: var(--muted); font-size: 12px; }
+.message-content { grid-column: 1 / -1; }
+.message-trap { display: none; }
+.message-submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin-top: 22px; }
+.message-submit { min-height: 44px; border: 1px solid var(--accent); border-radius: 4px; padding: 9px 22px; background: var(--accent); color: var(--paper); font-size: 14px; font-weight: 700; }
+.message-submit:hover { filter: brightness(.92); }
+.message-submit:disabled { opacity: .6; cursor: wait; }
+.message-status { flex: 1 1 180px; color: var(--accent); font-size: 14px; }
+.message-status[data-state='error'] { color: var(--text); }
+.message-alternative { margin-top: 18px; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.message-alternative a { color: var(--accent); text-decoration: underline; }
 .portrait { grid-area: portrait; align-self: center; justify-self: end; width: 100%; max-width: 240px; }
 .portrait-frame { overflow: hidden; border-radius: 5px; background: var(--surface); }
 .portrait img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 75% 35%; filter: brightness(1.16) contrast(0.98); }
@@ -245,6 +264,9 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
   .publication-actions { align-items: center; gap: 4px 18px; margin-top: 10px; }
   .publication-actions > a, .paper-summary summary { min-height: 38px; }
   .site-footer { margin-top: 40px; }
+  .message-section { grid-template-columns: minmax(0, 1fr); gap: 24px; margin-top: 44px; padding-top: 34px; }
+  .message-intro .message-privacy { max-width: none; margin-top: 10px; }
+  .message-fields { grid-template-columns: minmax(0, 1fr); gap: 18px; }
 }
 @media (max-width: 360px) {
   h1, html[lang='zh-CN'] h1 { font-size: 39px; }

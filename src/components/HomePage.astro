@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Icon from './Icon.astro';
 import CvPreview from './CvPreview.astro';
 import WeChatContact from './WeChatContact.astro';
+import MessageBoard from './MessageBoard.astro';
 import { copy, profile, publications, type Locale } from '../data/site';
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
@@ -27,6 +28,7 @@ const cv = profile.cv[locale];
         <a class="text-link" href={`mailto:${profile.email}`}>{t.emailLabel}<Icon name="external" /></a>
         <a class="text-link" href={profile.rednote} target="_blank" rel="noopener noreferrer">{t.rednoteLabel}<Icon name="external" /></a>
         <WeChatContact locale={locale} />
+        <a class="text-link" href="#message">{t.messageLink}<Icon name="arrow" /></a>
       </div>
     </div>
   </section>
@@ -65,6 +67,7 @@ const cv = profile.cv[locale];
       ))}
     </ol>
   </section>
+  <MessageBoard locale={locale} />
   <CvPreview locale={locale} />
   <dialog class="media-dialog" id="media-dialog" aria-labelledby="media-dialog-title">
     <div class="media-dialog-panel">
