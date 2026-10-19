@@ -8,3 +8,9 @@ Gemfile.lock
 .jekyll-cache
 .jekyll-metadata
 git-update.sh
+node_modules/
+.astro/
+dist/
+public/assets/
+output/playwright/
+.playwright-cli/

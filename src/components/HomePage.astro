@@ -1,0 +1,83 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Icon from './Icon.astro';
+import { copy, profile, publications, type Locale } from '../data/site';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = copy[locale];
+const cv = profile.cv[locale];
+---
+<Layout locale={locale}>
+  <section class="hero" id="about" aria-labelledby="hero-title">
+    <div class="hero-copy">
+      <h1 id="hero-title">{locale === 'zh' ? profile.chineseName : profile.name}<span class="name-alternate">{locale === 'zh' ? profile.name : profile.chineseName}</span></h1>
+      <p class="affiliation">{t.role}<span class="dot-separator">·</span><a href="https://www.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">{t.school}</a></p>
+      <p class="bio" set:html={t.bio} />
+      <div class="hero-links">
+        <a class="text-link" href={profile.scholar} target="_blank" rel="noopener noreferrer">Google Scholar<Icon name="external" /></a>
+        <a class="text-link" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub<Icon name="external" /></a>
+        <a class="text-link" href={cv} target="_blank" rel="noopener noreferrer">{t.cv}<Icon name="download" /></a>
+      </div>
+    </div>
+    <figure class="portrait">
+      <div class="portrait-frame"><img src="/assets/img/avatar.webp" width="400" height="480" alt={t.portraitAlt} fetchpriority="high" /></div>
+    </figure>
+  </section>
+
+  <section class="section" id="publications" aria-labelledby="publications-title">
+    <div class="section-header">
+      <div><h2 id="publications-title">{t.publications}</h2><p class="section-description">{t.publicationsIntro}</p></div>
+      <a class="text-link" href={profile.scholar} target="_blank" rel="noopener noreferrer">Google Scholar<Icon name="external" /></a>
+    </div>
+    <ol class="publications-list">
+      {publications.map((paper, index) => (
+        <li class="publication" id={`paper-${paper.id}`}>
+          <span class="publication-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+          <div class="publication-media" data-paper-media data-title={paper.title} data-image={paper.image} data-video={paper.video}>
+            <a class="publication-thumbnail" href={paper.image} target="_blank" rel="noopener noreferrer" data-open-figure aria-haspopup="dialog" aria-label={`${t.enlargeFigure}: ${paper.title}`}>
+              <img src={paper.image} alt={locale === 'zh' ? `${paper.title} 的研究配图` : `Figure from ${paper.title}`} width="600" height="400" loading="lazy" decoding="async" />
+              {paper.video && <video class="thumbnail-video" muted loop playsinline preload="none" tabindex="-1" aria-hidden="true" />}
+              <span class="figure-expand" aria-hidden="true"><Icon name="expand" /></span>
+            </a>
+            {paper.video && <a class="thumbnail-play" href={paper.video} target="_blank" rel="noopener noreferrer" data-open-video aria-haspopup="dialog" aria-label={`${t.playPreview}: ${paper.title}`}><Icon name="play" /></a>}
+          </div>
+          <div class="publication-main">
+            <div class="publication-meta"><span>{paper.year}</span><span aria-hidden="true">/</span><span>{paper.id === 'prior' ? t.preprint : paper.conference_short}</span>{paper.notes && <span class="publication-note">{paper.notes === 'Oral Pitch' ? t.oral : paper.notes}</span>}</div>
+            <h3><a href={paper.pdf} target="_blank" rel="noopener noreferrer">{paper.title}</a></h3>
+            <p class="authors" set:html={paper.authors} />
+            <div class="publication-actions">
+              <a href={paper.pdf} target="_blank" rel="noopener noreferrer">PDF<Icon name="external" /></a>
+              {paper.page && <a href={paper.page} target="_blank" rel="noopener noreferrer">{t.project}<Icon name="external" /></a>}
+              {paper.video && <a href={paper.video} target="_blank" rel="noopener noreferrer" data-open-video aria-haspopup="dialog">{t.video}<Icon name="play" /></a>}
+              {paper.arxiv && paper.arxiv.includes('arxiv.org') && <a href={paper.arxiv} target="_blank" rel="noopener noreferrer">arXiv<Icon name="external" /></a>}
+              <details class="paper-summary"><summary>{t.overview}</summary><p>{paper.summary[locale]}</p></details>
+            </div>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+  <dialog class="media-dialog" id="media-dialog" aria-labelledby="media-dialog-title">
+    <div class="media-dialog-panel">
+      <header class="media-dialog-header">
+        <h2 id="media-dialog-title"></h2>
+        <button class="icon-button media-close" type="button" data-close-media aria-label={t.closePreview} autofocus><Icon name="close" /></button>
+      </header>
+      <div class="media-stage">
+        <img id="media-dialog-image" alt="" hidden />
+        <video id="media-dialog-video" controls playsinline preload="none" hidden aria-label={t.playPreview}></video>
+        <p class="media-error" data-media-error hidden role="status">{t.videoError}</p>
+      </div>
+      <footer class="media-dialog-footer">
+        <div class="media-modes" role="group" aria-label={locale === 'zh' ? '预览类型' : 'Preview type'}>
+          <button type="button" data-media-mode="figure" aria-pressed="true">{t.figureTab}</button>
+          <button type="button" data-media-mode="video" aria-pressed="false" hidden>{t.videoTab}</button>
+        </div>
+        <a class="text-link" id="media-original" href="#" target="_blank" rel="noopener noreferrer">{t.openOriginal}<Icon name="external" /></a>
+      </footer>
+    </div>
+  </dialog>
+  <script>
+    import '../scripts/publication-media';
+  </script>
+</Layout>

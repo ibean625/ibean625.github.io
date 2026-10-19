@@ -1,6 +1,6 @@
 # Basic Information 
 title: Chenxi Han 韩晨曦
-position: M.S. Student
+position: Ph.D. Student
 affiliation: Tsinghua University
 email: ibean625@gmail.com 
 wechat: ibean__
@@ -8,7 +8,7 @@ wechat: ibean__
 # Search Engine Optimization (SEO)
 # The following information is used to improve the website traffic from search engines, e.g., Google.
 keywords: minimal light
-description: The Minimal Light is a simple and elegant jekyll theme for academic personal homepage.
+description: Chenxi Han is a Ph.D. student at Tsinghua University and a co-founder of ZERITH, working on robot learning, manipulation models, and humanoid control.
 canonical: https://minimal-light-theme.yliu.me/
 
 # Links 
@@ -16,7 +16,7 @@ canonical: https://minimal-light-theme.yliu.me/
 google_scholar: https://scholar.google.com/citations?user=UnM-YuoAAAAJ&hl=zh-CN
 cv_link: assets/cv/chenxi_han_cv.pdf
 cv_en_link: assets/cv/chenxi_han_cv.pdf
-cv_zh_link: assets/cv/zh/韩晨曦简历v1.3_5.27.pdf
+cv_zh_link: assets/cv/zh/chenxi_han_cv_zh.pdf
 github_link: https://github.com/ibean625
 twitter: https://x.com/ibean___
 rednote: https://www.xiaohongshu.com/user/profile/5d314e6a0000000012016924

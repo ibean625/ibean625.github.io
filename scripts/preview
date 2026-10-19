@@ -3,17 +3,13 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-export LANG="${LANG:-en_US.UTF-8}"
-export LC_ALL="${LC_ALL:-en_US.UTF-8}"
-export BUNDLE_PATH="${BUNDLE_PATH:-/private/tmp/website-bundle}"
+export ASTRO_TELEMETRY_DISABLED=1
+preview_host="${HOST:-127.0.0.1}"
+preview_port="${PORT:-4100}"
 
-host="${HOST:-127.0.0.1}"
-port="${PORT:-4100}"
-
-if ! bundle check >/dev/null 2>&1; then
-  echo "Installing Ruby gems into ${BUNDLE_PATH} ..."
-  bundle install --path "${BUNDLE_PATH}"
+if [ ! -d node_modules/astro ]; then
+  npm ci
 fi
 
-echo "Serving local preview at http://${host}:${port}"
-bundle exec jekyll serve --host "${host}" --port "${port}" --incremental
+echo "Serving local preview at http://${preview_host}:${preview_port}"
+npm run dev -- --host "$preview_host" --port "$preview_port"

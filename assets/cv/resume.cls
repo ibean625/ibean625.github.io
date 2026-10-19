@@ -3,7 +3,7 @@
 \LoadClass[10pt]{article}
 
 \setlength{\parindent}{0pt}
-\AtBeginDocument{\fontsize{10.3pt}{11.95pt}\selectfont}
+\AtBeginDocument{\fontsize{10.2pt}{11.75pt}\selectfont}
 
 \RequirePackage{xifthen}
 \RequirePackage{hyperref}
@@ -36,8 +36,8 @@
   a4paper,
   left=0.55in,
   right=0.55in,
-  top=0.62in,
-  bottom=0.62in,
+  top=0.56in,
+  bottom=0.54in,
   nohead
 }
 
@@ -45,19 +45,20 @@
 \setlist[itemize]{topsep=0.05em, leftmargin=1.0pc}
 \setlist[enumerate]{topsep=0.05em, leftmargin=1.0pc}
 \setlength{\tabcolsep}{0pt}
+\setlength{\emergencystretch}{1.2em}
 
 \titleformat{\section}
   {\fontsize{11.4pt}{12.2pt}\selectfont\scshape\raggedright\color{THUPurple}}
   {}{0em}
   {}
   [{\color{THUPurple}\titlerule}]
-\titlespacing*{\section}{0cm}{*1.15}{*0.80}
+\titlespacing*{\section}{0cm}{*1.02}{*0.62}
 
 \titleformat{\subsection}
   {\normalsize\raggedright}
   {}{0em}
   {}
-\titlespacing*{\subsection}{0cm}{*0.65}{*0.18}
+\titlespacing*{\subsection}{0cm}{*0.55}{*0.12}
 
 \newcommand{\datedsection}[2]{%
   \section[#1]{#1 \hfill #2}%
@@ -72,7 +73,7 @@
 }
 
 \newcommand{\tightdatedline}[2]{%
-  \begin{tabularx}{\textwidth}{@{}X r@{}}
+  \begin{tabularx}{\textwidth}{@{}X@{\hspace{0.5em}}r@{}}
     #1 & #2
   \end{tabularx}\par
 }
@@ -128,9 +129,9 @@
   \end{tabular*}\par
   {\hangindent=0.37in\hangafter=1\hspace*{0.37in}#3\par}
   {\hangindent=0.37in\hangafter=1\hspace*{0.37in}\textit{#4}\ifthenelse{\isempty{#5}}{}{. #5}\par}
-  \vspace{0.18ex}
+  \vspace{0.08ex}
 }
 
 \newcommand{\skillsline}[1]{%
-  {\par \textcolor{THUPurpleMuted}{\textbf{Core tools:}}\quad #1\par}
+  {\par \textcolor{THUPurpleMuted}{\textbf{Core Tools:}}\quad #1\par}
 }

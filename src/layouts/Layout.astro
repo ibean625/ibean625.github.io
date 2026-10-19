@@ -1,0 +1,147 @@
+---
+import '../styles/scholarly.css';
+import Icon from '../components/Icon.astro';
+import { copy, profile, type Locale } from '../data/site';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = copy[locale];
+const base = locale === 'zh' ? '/zh/' : '/';
+const canonical = new URL(base, profile.url).href;
+const structuredData = JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'ProfilePage',
+  url: canonical,
+  inLanguage: t.lang,
+  mainEntity: {
+    '@type': 'Person', name: profile.name, alternateName: profile.chineseName,
+    jobTitle: 'Ph.D. Student', affiliation: { '@type': 'CollegeOrUniversity', name: 'Tsinghua University' },
+    url: profile.url, image: `${profile.url}/assets/img/avatar.webp`,
+    sameAs: [profile.scholar, profile.github, profile.twitter],
+  },
+}).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang={t.lang} data-locale={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={t.description} />
+    <meta name="theme-color" content="#fbfaf6" />
+    <title>{t.title}</title>
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={`${profile.url}/`} />
+    <link rel="alternate" hreflang="zh-CN" href={`${profile.url}/zh/`} />
+    <link rel="alternate" hreflang="x-default" href={`${profile.url}/`} />
+    <link rel="icon" href="/assets/img/favicon.png" type="image/png" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:title" content={t.title} />
+    <meta property="og:description" content={t.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={`${profile.url}/assets/img/avatar.webp`} />
+    <meta property="og:locale" content={locale === 'zh' ? 'zh_CN' : 'en_US'} />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json" is:inline set:html={structuredData} />
+    <script is:inline>
+      (() => {
+        let theme;
+        try {
+          theme = localStorage.getItem('site-theme');
+          if (location.pathname === '/' && localStorage.getItem('site-language') === 'zh') {
+            location.replace('/zh/' + location.search + location.hash);
+          }
+        } catch {}
+        const dark = theme === 'dark' || (theme !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" rel="stylesheet" />
+    <noscript><style>@media(max-width:880px){.header-inner{flex-wrap:wrap}.main-nav{display:flex!important;order:3;width:100%;margin:0;padding-bottom:12px;flex-wrap:wrap;gap:8px 16px}.menu-toggle{display:none!important}}</style></noscript>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{t.skip}</a>
+    <header class="site-header">
+      <div class="header-inner container">
+        <a class="wordmark" href={base} aria-label={`${profile.name} — ${locale === 'zh' ? '首页' : 'Home'}`}>Chenxi Han<span class="wordmark-dot">.</span></a>
+        <nav id="main-nav" class="main-nav" aria-label={locale === 'zh' ? '主导航' : 'Main navigation'}>
+          {Object.entries(t.nav).map(([id, label]) => <a href={`${base}#${id}`} data-nav={id}>{label}</a>)}
+        </nav>
+        <div class="header-tools">
+          <div class="language-switch" role="group" aria-label={t.language}>
+            <a href="/" lang="en" hreflang="en" data-language="en" aria-current={locale === 'en' ? 'page' : undefined}>EN</a>
+            <span aria-hidden="true">/</span>
+            <a href="/zh/" lang="zh-CN" hreflang="zh-CN" data-language="zh" aria-current={locale === 'zh' ? 'page' : undefined}>中文</a>
+          </div>
+          <button class="icon-button theme-toggle" type="button" aria-label={t.themeDark} data-dark-label={t.themeDark} data-light-label={t.themeLight}>
+            <Icon name="moon" class="moon-icon" /><Icon name="sun" class="sun-icon" />
+          </button>
+          <button class="icon-button menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label={t.menuOpen} data-open-label={t.menuOpen} data-close-label={t.menuClose}><Icon name="menu" /></button>
+        </div>
+      </div>
+    </header>
+    <main id="main" class="container"><slot /></main>
+    <footer class="site-footer container">
+      <span>© {new Date().getFullYear()} {profile.name} <span class="footer-divider">/</span> {profile.chineseName}</span>
+      <span class="footer-note">{t.footer}</span>
+      <a href="#about" class="back-top" aria-label={t.backTop}><Icon name="up" /></a>
+    </footer>
+    <script>
+      const root = document.documentElement;
+      const themeButton = document.querySelector<HTMLButtonElement>('.theme-toggle');
+      const syncThemeLabel = () => {
+        const dark = root.dataset.theme === 'dark';
+        themeButton?.setAttribute('aria-label', (dark ? themeButton.dataset.lightLabel : themeButton.dataset.darkLabel) ?? 'Change theme');
+        themeButton?.setAttribute('aria-pressed', String(dark));
+        document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#161918' : '#fbfaf6');
+      };
+      syncThemeLabel();
+      themeButton?.addEventListener('click', () => {
+        root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        try { localStorage.setItem('site-theme', root.dataset.theme); } catch {}
+        syncThemeLabel();
+      });
+      matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (event) => {
+        let stored;
+        try { stored = localStorage.getItem('site-theme'); } catch {}
+        if (!stored) { root.dataset.theme = event.matches ? 'dark' : 'light'; syncThemeLabel(); }
+      });
+      document.querySelectorAll<HTMLAnchorElement>('[data-language]').forEach(link => {
+        link.addEventListener('click', () => {
+          try { localStorage.setItem('site-language', link.dataset.language ?? 'en'); } catch {}
+          link.hash = location.hash;
+        });
+      });
+      const menuButton = document.querySelector<HTMLButtonElement>('.menu-toggle');
+      const nav = document.getElementById('main-nav');
+      const closeMenu = () => {
+        nav?.classList.remove('is-open');
+        menuButton?.setAttribute('aria-expanded', 'false');
+        menuButton?.setAttribute('aria-label', menuButton.dataset.openLabel ?? 'Open navigation');
+      };
+      menuButton?.addEventListener('click', () => {
+        const opened = nav?.classList.toggle('is-open') ?? false;
+        menuButton.setAttribute('aria-expanded', String(opened));
+        menuButton.setAttribute('aria-label', (opened ? menuButton.dataset.closeLabel : menuButton.dataset.openLabel) ?? 'Navigation');
+      });
+      nav?.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && nav?.classList.contains('is-open')) { closeMenu(); menuButton?.focus(); }
+      });
+      document.addEventListener('click', event => {
+        if (event.target instanceof Node && !nav?.contains(event.target) && !menuButton?.contains(event.target)) closeMenu();
+      });
+      matchMedia('(min-width: 881px)').addEventListener('change', closeMenu);
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          document.querySelectorAll<HTMLAnchorElement>('[data-nav]').forEach(link => {
+            if (link.dataset.nav === entry.target.id) link.setAttribute('aria-current', 'location');
+            else link.removeAttribute('aria-current');
+          });
+        });
+      }, { rootMargin: '-15% 0px -65% 0px' });
+      document.querySelectorAll('main section[id]').forEach(section => observer.observe(section));
+    </script>
+  </body>
+</html>
