@@ -11,7 +11,7 @@ const cv = profile.cv[locale];
 <Layout locale={locale}>
   <section class="hero" id="about" aria-labelledby="hero-title">
     <div class="hero-identity">
-      <h1 id="hero-title">{locale === 'zh' ? profile.chineseName : profile.name}<span class="name-alternate">{locale === 'zh' ? profile.name : profile.chineseName}</span></h1>
+      <h1 id="hero-title">{locale === 'zh' ? profile.chineseName : profile.name}</h1>
       <p class="affiliation">{t.role}<span class="dot-separator">·</span><a href="https://www.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">{t.school}</a></p>
     </div>
     <figure class="portrait">

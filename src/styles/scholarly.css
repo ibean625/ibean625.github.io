@@ -71,7 +71,6 @@ svg { flex-shrink: 0; }
 .hero-identity { grid-area: identity; min-width: 0; }
 .hero-description { grid-area: description; min-width: 0; }
 h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03em; }
-.name-alternate { display: inline-block; margin-left: 18px; color: var(--muted); font-family: 'Songti SC', 'Noto Serif SC', Georgia, serif; font-weight: 400; font-size: 25px; letter-spacing: 0.03em; vertical-align: middle; }
 .affiliation { margin-top: 14px; color: var(--muted); font-size: 15px; line-height: 1.8; }
 .affiliation a { color: var(--text); }
 .affiliation a:hover { text-decoration: underline; }
@@ -87,7 +86,6 @@ h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03
 .publication-media { grid-area: media; position: relative; align-self: center; width: 100%; }
 .publication-main { grid-area: main; }
 html[lang='zh-CN'] h1 { font-size: 60px; letter-spacing: 0.015em; }
-html[lang='zh-CN'] .name-alternate { font-family: var(--serif); letter-spacing: -0.01em; }
 
 .section { padding-top: 68px; padding-bottom: 10px; }
 .section-header { display: flex; justify-content: space-between; gap: 28px; align-items: flex-end; border-bottom: 1px solid var(--line); padding-bottom: 23px; margin-bottom: 28px; }
@@ -164,7 +162,6 @@ h2 { font-size: 38px; line-height: 1.08; letter-spacing: -0.02em; }
   .cv-dialog-footer { padding: 4px 14px; }
 }
 .site-footer { display: flex; align-items: center; margin-top: 64px; padding: 26px 0 30px; gap: 20px; font-size: 11px; color: var(--muted); }
-.footer-divider { margin-inline: 6px; }
 .footer-note { margin-left: auto; }
 .back-top { display: flex; align-items: center; justify-content: center; min-height: 34px; min-width: 34px; }
 html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
@@ -216,7 +213,6 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
 @media (max-width: 1020px) {
   .hero { grid-template-columns: minmax(0, 1fr) 200px; column-gap: 40px; }
   .portrait { max-width: 200px; }
-  .name-alternate { display: block; margin: 10px 0 0; font-size: 24px; }
   .publication { grid-template-columns: minmax(190px, 220px) minmax(0, 1fr); gap: 24px; }
 }
 @media (max-width: 760px) {
@@ -226,7 +222,6 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
   .hero-description { order: 2; width: 100%; }
   h1 { font-size: 46px; }
   html[lang='zh-CN'] h1 { font-size: 46px; }
-  .name-alternate { font-size: 22px; margin-top: 10px; }
   .affiliation { margin-top: 12px; font-size: 14px; }
   .bio { font-size: 16px; line-height: 1.9; }
   .hero-links { justify-content: center; gap: 12px 23px; margin-top: 23px; }

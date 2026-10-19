@@ -5,6 +5,7 @@ import { copy, profile, type Locale } from '../data/site';
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
 const t = copy[locale];
+const displayName = locale === 'zh' ? profile.chineseName : profile.name;
 const base = locale === 'zh' ? '/zh/' : '/';
 const canonical = new URL(base, profile.url).href;
 const structuredData = JSON.stringify({
@@ -62,7 +63,7 @@ const structuredData = JSON.stringify({
     <a class="skip-link" href="#main">{t.skip}</a>
     <header class="site-header">
       <div class="header-inner container">
-        <a class="wordmark" href={base} aria-label={`${profile.name} — ${locale === 'zh' ? '首页' : 'Home'}`}>Chenxi Han<span class="wordmark-dot">.</span></a>
+        <a class="wordmark" href={base} aria-label={`${displayName} — ${locale === 'zh' ? '首页' : 'Home'}`}>{displayName}<span class="wordmark-dot">.</span></a>
         <nav id="main-nav" class="main-nav" aria-label={locale === 'zh' ? '主导航' : 'Main navigation'}>
           {Object.entries(t.nav).map(([id, label]) => <a href={`${base}#${id}`} data-nav={id}>{label}</a>)}
         </nav>
@@ -80,7 +81,7 @@ const structuredData = JSON.stringify({
     </header>
     <main id="main" class="container"><slot /></main>
     <footer class="site-footer container">
-      <span>© {new Date().getFullYear()} {profile.name} <span class="footer-divider">/</span> {profile.chineseName}</span>
+      <span>© {new Date().getFullYear()} {displayName}</span>
       <span class="footer-note">{t.footer}</span>
       <a href="#about" class="back-top" aria-label={t.backTop}><Icon name="up" /></a>
     </footer>
