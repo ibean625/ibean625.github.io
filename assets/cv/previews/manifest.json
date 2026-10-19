@@ -1,0 +1,16 @@
+{
+  "en": {
+    "pdf": "cv/chenxi_han_cv.pdf",
+    "image": "cv/previews/en.webp",
+    "sha256": "07510958543a3043fca4fdb366912a8c81ab4063e3dcf50243fbbbe98e59de7d",
+    "width": 1654,
+    "height": 2339
+  },
+  "zh": {
+    "pdf": "cv/zh/chenxi_han_cv_zh.pdf",
+    "image": "cv/previews/zh.webp",
+    "sha256": "8ad4a0e7f8722ff50394e8e686f62f319e0448e72e6567bbe1af1c8fd170121f",
+    "width": 1709,
+    "height": 2417
+  }
+}

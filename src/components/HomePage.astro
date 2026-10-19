@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Icon from './Icon.astro';
+import CvPreview from './CvPreview.astro';
 import { copy, profile, publications, type Locale } from '../data/site';
 interface Props { locale: Locale; }
 const { locale } = Astro.props;
@@ -9,19 +10,21 @@ const cv = profile.cv[locale];
 ---
 <Layout locale={locale}>
   <section class="hero" id="about" aria-labelledby="hero-title">
-    <div class="hero-copy">
+    <div class="hero-identity">
       <h1 id="hero-title">{locale === 'zh' ? profile.chineseName : profile.name}<span class="name-alternate">{locale === 'zh' ? profile.name : profile.chineseName}</span></h1>
       <p class="affiliation">{t.role}<span class="dot-separator">·</span><a href="https://www.tsinghua.edu.cn/" target="_blank" rel="noopener noreferrer">{t.school}</a></p>
+    </div>
+    <figure class="portrait">
+      <div class="portrait-frame"><img src="/assets/img/avatar.webp" width="400" height="500" alt={t.portraitAlt} fetchpriority="high" /></div>
+    </figure>
+    <div class="hero-description">
       <p class="bio" set:html={t.bio} />
       <div class="hero-links">
         <a class="text-link" href={profile.scholar} target="_blank" rel="noopener noreferrer">Google Scholar<Icon name="external" /></a>
         <a class="text-link" href={profile.github} target="_blank" rel="noopener noreferrer">GitHub<Icon name="external" /></a>
-        <a class="text-link" href={cv} target="_blank" rel="noopener noreferrer">{t.cv}<Icon name="download" /></a>
+        <a class="text-link" href={cv} target="_blank" rel="noopener noreferrer" data-open-cv aria-haspopup="dialog">{t.cv}<Icon name="external" /></a>
       </div>
     </div>
-    <figure class="portrait">
-      <div class="portrait-frame"><img src="/assets/img/avatar.webp" width="400" height="480" alt={t.portraitAlt} fetchpriority="high" /></div>
-    </figure>
   </section>
 
   <section class="section" id="publications" aria-labelledby="publications-title">
@@ -30,9 +33,8 @@ const cv = profile.cv[locale];
       <a class="text-link" href={profile.scholar} target="_blank" rel="noopener noreferrer">Google Scholar<Icon name="external" /></a>
     </div>
     <ol class="publications-list">
-      {publications.map((paper, index) => (
+      {publications.map((paper) => (
         <li class="publication" id={`paper-${paper.id}`}>
-          <span class="publication-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
           <div class="publication-media" data-paper-media data-title={paper.title} data-image={paper.image} data-video={paper.video}>
             <a class="publication-thumbnail" href={paper.image} target="_blank" rel="noopener noreferrer" data-open-figure aria-haspopup="dialog" aria-label={`${t.enlargeFigure}: ${paper.title}`}>
               <img src={paper.image} alt={locale === 'zh' ? `${paper.title} 的研究配图` : `Figure from ${paper.title}`} width="600" height="400" loading="lazy" decoding="async" />
@@ -57,6 +59,7 @@ const cv = profile.cv[locale];
       ))}
     </ol>
   </section>
+  <CvPreview locale={locale} />
   <dialog class="media-dialog" id="media-dialog" aria-labelledby="media-dialog-title">
     <div class="media-dialog-panel">
       <header class="media-dialog-header">

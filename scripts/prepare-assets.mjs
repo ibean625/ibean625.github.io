@@ -1,9 +1,17 @@
-import { mkdir, copyFile, chmod } from 'node:fs/promises';
+import { mkdir, copyFile, chmod, readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
 const root = new URL('../', import.meta.url);
+const cvPreviews = JSON.parse(await readFile(new URL('assets/cv/previews/manifest.json', root), 'utf8'));
+for (const preview of Object.values(cvPreviews)) {
+  const pdf = await readFile(new URL(`assets/${preview.pdf}`, root));
+  if (createHash('sha256').update(pdf).digest('hex') !== preview.sha256) {
+    throw new Error(`CV preview is out of date: ${preview.pdf}. Run npm run cv:previews after editing a CV.`);
+  }
+}
 const images = ['avatar', 'PRIOR', 'PMG', 'SERL_v2', 'SEWB', 'hair transplantation'];
 await mkdir(new URL('public/assets/img/', root), { recursive: true });
 for (const name of images) {
@@ -19,6 +27,8 @@ for (const name of images) {
 const files = [
   'cv/chenxi_han_cv.pdf',
   'cv/zh/chenxi_han_cv_zh.pdf',
+  'cv/previews/en.webp',
+  'cv/previews/zh.webp',
   'img/favicon.png',
   'img/favicon-dark.png',
   'files/PMG.pdf',

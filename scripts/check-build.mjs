@@ -23,6 +23,8 @@ for (const [path, lang, text] of [['index.html', 'en', 'manipulation models'], [
     assert.equal((paper.match(/<img\b/g) ?? []).length, 1, `${path}: each publication has one figure`);
   }
   assert.ok(html.includes('id="media-dialog"'), `${path}: accessible media preview is present`);
+  assert.ok(html.includes('id="cv-dialog"') && html.includes('data-open-cv'), `${path}: CV opens in an in-page viewer`);
+  assert.ok(!/class="[^"]*menu-toggle/.test(html), `${path}: no hamburger menu`);
   for (const [video] of html.matchAll(/<video\b[^>]*>/g)) {
     assert.ok(!/\ssrc=/.test(video) && video.includes('preload="none"'), `${path}: videos load only after interaction`);
   }

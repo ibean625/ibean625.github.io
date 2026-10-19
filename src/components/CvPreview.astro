@@ -1,0 +1,37 @@
+---
+import Icon from './Icon.astro';
+import { copy, type Locale } from '../data/site';
+import manifest from '../../assets/cv/previews/manifest.json';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = copy[locale];
+const sources = Object.fromEntries(Object.entries(manifest).map(([language, entry]) => [language, {
+  image: `/assets/${entry.image}`, pdf: `/assets/${entry.pdf}`, width: entry.width, height: entry.height,
+}]));
+---
+<dialog class="cv-dialog" id="cv-dialog" aria-labelledby="cv-dialog-title" data-default-language={locale} data-cv-sources={JSON.stringify(sources)}>
+  <header class="cv-dialog-header">
+    <h2 id="cv-dialog-title">{t.cvTitle}</h2>
+    <button class="icon-button" type="button" data-close-cv aria-label={t.cvClose} autofocus><Icon name="close" /></button>
+  </header>
+  <div class="cv-toolbar">
+    <div class="cv-languages" role="group" aria-label={t.language}>
+      <button type="button" data-cv-language="en" lang="en" aria-pressed={locale === 'en'}>English</button>
+      <button type="button" data-cv-language="zh" lang="zh-CN" aria-pressed={locale === 'zh'}>中文</button>
+    </div>
+    <div class="cv-zoom" role="group" aria-label={locale === 'zh' ? '调整大小' : 'Zoom controls'}>
+      <button type="button" data-cv-zoom="out" aria-label={t.cvZoomOut}>−</button>
+      <span data-cv-scale aria-live="polite">100%</span>
+      <button type="button" data-cv-zoom="in" aria-label={t.cvZoomIn}>+</button>
+      <button class="cv-fit" type="button" data-cv-zoom="fit">{t.cvFit}</button>
+    </div>
+  </div>
+  <div class="cv-scroll" tabindex="0" role="region" aria-label={t.cvTitle}>
+    <p class="cv-status" data-cv-status data-loading={t.cvLoading} data-error={t.cvLoadError} role="status">{t.cvLoading}</p>
+    <img class="cv-page" id="cv-page" alt={t.cvTitle} hidden />
+  </div>
+  <footer class="cv-dialog-footer"><a class="text-link" data-cv-original href={`/assets/${manifest[locale].pdf}`} target="_blank" rel="noopener noreferrer">{t.cvOpenPdf}<Icon name="external" /></a></footer>
+</dialog>
+<script>
+  import '../scripts/cv-preview';
+</script>

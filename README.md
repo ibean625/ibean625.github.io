@@ -37,6 +37,8 @@ The English homepage is `/`; the Chinese homepage is `/zh/`. Language links pres
 
 Click a publication figure to enlarge it. Available demo videos play silently on mouse hover and stop on exit; touch devices have an explicit play button. The preview dialog supports Escape, backdrop dismissal, native video controls, and focus restoration. Video files load only after interaction, and automatic previews respect reduced-motion and data-saving preferences. Without JavaScript, the links open the original image or video.
 
+The CV link opens a page preview inside the website, with English/Chinese selection and zoom controls. The preview images are rendered from the original PDFs and checked against their source hashes during every build. After changing either PDF, run `npm run cv:previews` (requires Poppler's `pdfinfo` and `pdftoppm`) and commit `assets/cv/previews/` with the updated CV. `PDFINFO` and `PDFTOPPM` can point to specific executable paths.
+
 `prepare-assets.mjs` generates optimized WebP images and copies an explicit list of public PDFs and videos to `public/assets/` before development or a build. Generated copies are ignored by Git. Edit the originals in `assets/`, and keep the allowlist current when adding a new local paper or video. CV source files, application documents, and other private working files are not included in the website.
 
 The original Jekyll layouts, styles, and `index.md` are retained for reference; they are not part of the Astro build.
