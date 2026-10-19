@@ -30,7 +30,7 @@
   --header: rgb(22 25 24 / 94%);
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 100px; background: var(--paper); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { scrollbar-gutter: stable; scroll-behavior: smooth; scroll-padding-top: 100px; background: var(--paper); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body { margin: 0; color: var(--text); font-family: var(--sans); font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
 body, button, a { -webkit-tap-highlight-color: transparent; }
 h1, h2, h3, h4, p, ul, ol, figure, dl, dd { margin: 0; }
@@ -206,8 +206,8 @@ h2 { font-size: 38px; line-height: 1.08; letter-spacing: -0.02em; }
 .media-dialog[open] { display: grid; place-items: center; }
 .media-dialog-panel { width: min(1100px, 100%); max-height: calc(100dvh - 48px); overflow: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); box-shadow: 0 24px 100px rgb(0 0 0 / 25%); transform-origin: 50% 50%; }
 .media-flight-layer { position: fixed; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
-.media-flight-image { position: absolute; display: block; max-width: none; object-fit: fill; background: #fff; transform-origin: 0 0; will-change: transform; }
-.media-dialog[data-state='closing']::backdrop { animation: media-backdrop-out 620ms ease-in-out both; }
+.media-flight-image { position: absolute; display: block; max-width: none; object-fit: fill; background: #fff; transform-origin: 50% 50%; will-change: transform; box-shadow: 0 18px 60px rgb(0 0 0 / 24%); border-radius: 5px; }
+.media-dialog[data-state='closing']::backdrop { animation: media-backdrop-out 740ms ease-in-out both; }
 .media-dialog[data-state='closing'][data-mode='video']::backdrop { animation-duration: 240ms; }
 @keyframes media-backdrop-out { from { opacity: 1; } to { opacity: 0; } }
 .media-dialog::backdrop { background: rgb(20 25 23 / 50%); }
@@ -389,5 +389,21 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
 
 .message-file-note { margin-top: 8px; color: var(--muted); font-size: 11px; }
 
-.letter-celebration { position: fixed; inset: 0; z-index: 8; pointer-events: none; overflow: hidden; contain: layout style size; }
-.letter-confetti { position: absolute; display: block; pointer-events: none; will-change: transform, opacity; }
+.letter-celebration { position: fixed; inset: 0; z-index: 30; pointer-events: none; overflow: hidden; contain: layout style size; }
+.letter-fireworks { display: block; width: 100%; height: 100%; pointer-events: none; }
+
+/* Figure previews are floating images, without a second white box expanding. */
+.media-dialog[data-mode='figure'] .media-dialog-panel { border: 0; background: transparent; box-shadow: none; overflow: visible; }
+.media-dialog[data-mode='figure'] .media-dialog-header { padding: 0 0 14px; border: 0; gap: 20px; align-items: center; }
+.media-dialog[data-mode='figure'] .media-dialog-header h2 { color: #fff; font-size: 19px; font-weight: 500; text-shadow: 0 1px 9px rgb(0 0 0 / 40%); }
+.media-dialog[data-mode='figure'] .media-close { color: #fff; background: rgb(255 255 255 / 12%); }
+.media-dialog[data-mode='figure'] .media-stage { min-height: 0; padding: 0; }
+.media-dialog[data-mode='figure'] .media-stage img { width: auto; max-width: 100%; height: auto; border-radius: 5px; box-shadow: 0 18px 60px rgb(0 0 0 / 24%); }
+.media-dialog[data-mode='figure'] .media-dialog-footer { padding: 14px 0 0; border: 0; color: #fff; }
+.media-dialog[data-mode='figure'] .media-modes button { color: #fff; }
+.media-dialog[data-mode='figure'] .media-modes button[aria-pressed='true'] { background: rgb(255 255 255 / 15%); }
+.media-dialog[data-mode='figure'] #media-original { color: #fff; }
+@media (max-width: 600px) { .media-dialog[data-mode='figure'] .media-dialog-header h2 { font-size: 17px; } }
+
+.message-dialog::backdrop { transition: background-color 350ms ease; }
+.message-dialog[data-celebrating='true']::backdrop { background: rgb(10 18 25 / 60%); }

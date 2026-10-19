@@ -36,7 +36,7 @@ export function setupPublicationMedia() {
     motions.forEach(animation => animation.cancel());
     motions.clear();
   }
-  async function move(element: HTMLElement, frames: Keyframe[], duration: number, token: number, delay = 0) {
+  async function move(element: HTMLElement, frames: Keyframe[], duration: number, token: number, delay = 0, easing = 'cubic-bezier(.22,.72,.3,1)') {
     if (token !== transition || !dialog.open) return;
     if (reduceMotion.matches) {
       const last = frames.at(-1)!;
@@ -45,7 +45,7 @@ export function setupPublicationMedia() {
       return;
     }
     let animation: Animation;
-    try { animation = element.animate(frames, { duration, delay, fill: 'both', easing: 'cubic-bezier(.4,0,.6,1)' }); }
+    try { animation = element.animate(frames, { duration, delay, fill: 'both', easing }); }
     catch {
       const last = frames.at(-1)!;
       if (last.opacity !== undefined) element.style.opacity = String(last.opacity);
@@ -81,6 +81,38 @@ export function setupPublicationMedia() {
     flightLayer.append(flight);
     flyingImage = flight;
     return flight;
+  }
+  function imageFrames(from: ReturnType<typeof paintedBox>, to: ReturnType<typeof paintedBox>, base: ReturnType<typeof paintedBox>, returning = false): Keyframe[] {
+    if ([from.width, from.height, to.width, to.height, base.width, base.height].some(value => !Number.isFinite(value) || value <= 0)) return [{ opacity: 1 }, { opacity: 0 }];
+    const fromX = from.left + from.width / 2;
+    const fromY = from.top + from.height / 2;
+    const toX = to.left + to.width / 2;
+    const toY = to.top + to.height / 2;
+    const dx = toX - fromX;
+    const dy = toY - fromY;
+    const distance = Math.hypot(dx, dy) || 1;
+    const bend = Math.min(30, distance * .06) * (returning ? -1 : 1);
+    // A damped approach with a tangent-matched soft stop. Logarithmic scale
+    // keeps the perceived zoom speed even for very different image sizes.
+    const normalized = (t: number) => (1 - (1 + 3 * t) * Math.exp(-3 * t)) / (1 - 4 * Math.exp(-3));
+    const settleAt = .76;
+    const settled = normalized(settleAt);
+    const tangent = 9 * settleAt * Math.exp(-3 * settleAt) / (1 - 4 * Math.exp(-3)) * (1 - settleAt);
+    const response = (t: number) => {
+      if (t <= settleAt) return normalized(t);
+      const u = (t - settleAt) / (1 - settleAt);
+      return (2 * u ** 3 - 3 * u ** 2 + 1) * settled + (u ** 3 - 2 * u ** 2 + u) * tangent + (-2 * u ** 3 + 3 * u ** 2);
+    };
+    return Array.from({ length: 61 }, (_, index) => {
+      const t = index / 60;
+      const progress = index === 60 ? 1 : response(t);
+      const arc = 4 * progress * (1 - progress) * bend;
+      const x = fromX + dx * progress - dy / distance * arc;
+      const y = fromY + dy * progress + dx / distance * arc;
+      const scaleX = Math.exp(Math.log(from.width / base.width) * (1 - progress) + Math.log(to.width / base.width) * progress);
+      const scaleY = Math.exp(Math.log(from.height / base.height) * (1 - progress) + Math.log(to.height / base.height) * progress);
+      return { offset: t, transform: `translate3d(${x - base.left - base.width / 2}px,${y - base.top - base.height / 2}px,0) scale(${scaleX},${scaleY})` };
+    });
   }
   function hideThumbnail() {
     if (thumbnail) thumbnail.style.visibility = 'hidden';
@@ -188,10 +220,9 @@ export function setupPublicationMedia() {
       const flight = makeFlight(to);
       image.style.visibility = 'hidden';
       hideThumbnail();
-      const start = `translate3d(${from.left - to.left}px,${from.top - to.top}px,0) scale(${from.width / to.width},${from.height / to.height})`;
       await Promise.all([
-        move(flight, [{ transform: start }, { transform: 'none' }], 720, token),
-        move(panel, [{ opacity: 0 }, { opacity: 1 }], 460, token, 120),
+        move(flight, imageFrames(from, to, to), 860, token, 0, 'linear'),
+        move(panel, [{ opacity: 0 }, { opacity: 1 }], 360, token, 280),
       ]);
     } else {
       await move(panel, [{ opacity: 0, transform: 'translateY(8px) scale(.985)' }, { opacity: 1, transform: 'none' }], 280, token);
@@ -218,10 +249,9 @@ export function setupPublicationMedia() {
       const to = paintedBox(thumbnail);
       const flight = makeFlight(from);
       image.style.visibility = 'hidden'; hideThumbnail();
-      const end = `translate3d(${to.left - from.left}px,${to.top - from.top}px,0) scale(${to.width / from.width},${to.height / from.height})`;
       await Promise.all([
-        move(flight, [{ transform: 'none' }, { transform: end }], 620, token),
-        move(panel, [{ opacity: startOpacity }, { opacity: 0 }], 240, token),
+        move(flight, imageFrames(from, to, from, true), 740, token, 0, 'linear'),
+        move(panel, [{ opacity: startOpacity }, { opacity: 0 }], 180, token),
       ]);
     } else {
       await move(panel, [{ opacity: startOpacity, transform: 'none' }, { opacity: 0, transform: 'translateY(8px) scale(.985)' }], 240, token);
