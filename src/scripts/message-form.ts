@@ -155,6 +155,8 @@ function setupLetter() {
     unlockScene();
     phase('waiting'); sheet.hidden = true; sheet.inert = true; object.style.opacity = '0';
     pending.hidden = false; thanks.hidden = true;
+    dialog.setAttribute('aria-labelledby', 'message-pending-title');
+    dialog.setAttribute('aria-describedby', 'message-pending-status');
   }
   function showReceipt() {
     unlockScene();
@@ -168,6 +170,8 @@ function setupLetter() {
     resetPose(); unlockScene(); envelope.dataset.open = 'true';
     sheet.hidden = false; sheet.inert = false; content.style.opacity = '1';
     pending.hidden = true; thanks.hidden = true; phase('writing');
+    dialog.setAttribute('aria-labelledby', 'message-title');
+    dialog.setAttribute('aria-describedby', 'message-privacy');
     status.dataset.state = 'error'; status.textContent = failureMessage; status.hidden = false; errorEmail.hidden = false;
   }
   function settle() {
@@ -182,7 +186,7 @@ function setupLetter() {
     const from = envelope.getBoundingClientRect();
     previousOverflow = document.body.style.overflow; document.body.style.overflow = 'hidden';
     sheet.hidden = false; sheet.inert = true; pending.hidden = true; thanks.hidden = true;
-    dock.append(envelope); envelope.append(sheet); envelope.dataset.open = 'true';
+    dock.append(envelope); envelope.append(sheet); envelope.removeAttribute('aria-hidden'); envelope.dataset.open = 'true';
     phase('opening'); dialog.setAttribute('aria-labelledby', 'message-title'); dialog.setAttribute('aria-describedby', 'message-privacy');
     dialog.showModal();
     if (deliveryState === 'pending' || deliveryState === 'sent') { freezeScene(); outgoing = false; settle(); return; }
@@ -258,7 +262,7 @@ function setupLetter() {
   dialog.addEventListener('click', event => { if (event.target === dialog || event.target === scene) void closeLetter(); });
   dialog.addEventListener('close', () => {
     ++epoch; closing = false; cancelMotion(); resetPose(); unlockScene();
-    sheet.hidden = true; sheet.inert = true; object.append(sheet); envelope.dataset.open = 'false'; iconSlot.append(envelope);
+    sheet.hidden = true; sheet.inert = true; object.append(sheet); envelope.dataset.open = 'false'; envelope.setAttribute('aria-hidden', 'true'); iconSlot.append(envelope);
     pending.hidden = true; thanks.hidden = true; phase('closed'); document.body.style.overflow = previousOverflow; launcher.focus({ preventScroll: true });
     if (deliveryState === 'sent' && receiptSeen) { deliveryState = 'idle'; receiptSeen = false; }
   });

@@ -58,8 +58,8 @@ const formUrl = `${profile.url}${locale === 'zh' ? '/zh/' : '/'}#message`;
     <div class="letter-receipt-wrap">
     <section class="message-pending" hidden role="status" aria-live="polite">
       <span class="pending-mark" aria-hidden="true"><Icon name="mail" /></span>
-      <h2>{t.pendingTitle}</h2>
-      <p data-pending-status>{t.waiting}</p>
+      <h2 id="message-pending-title">{t.pendingTitle}</h2>
+      <p id="message-pending-status" data-pending-status>{t.waiting}</p>
       <div class="pending-actions"><button type="button" class="text-link" data-cancel-delivery>{t.cancelWait}</button><a class="text-link" data-compose-email href={`mailto:${profile.email}`}>{t.emailFallback}</a></div>
       <p class="message-file-note" data-mail-file-note hidden>{t.fallbackFiles}</p>
     </section>
