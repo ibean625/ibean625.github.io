@@ -75,17 +75,17 @@ h1 { font-size: clamp(44px, 5vw, 64px); line-height: 1.04; letter-spacing: -0.03
 .affiliation a { color: var(--text); }
 .affiliation a:hover { text-decoration: underline; }
 .dot-separator { margin: 0 9px; }
-.bio { font-size: 17px; line-height: 1.85; max-width: 70ch; text-wrap: pretty; }
-.bio a { text-decoration: underline; text-decoration-color: var(--line); color: var(--accent); }
+.bio { font-size: 17px; line-height: 1.85; max-width: 70ch; text-align: justify; text-align-last: start; text-wrap: wrap; hyphens: auto; hyphenate-limit-chars: 10 4 4; -webkit-hyphenate-limit-before: 4; -webkit-hyphenate-limit-after: 4; -webkit-hyphenate-limit-lines: 2; }
+.bio a { text-decoration: underline; text-decoration-color: var(--line); color: var(--accent); hyphens: none; }
 .bio a:hover { text-decoration-color: var(--accent); }
 .hero-links { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 26px; margin-top: 24px; }
-.profile-contacts { display: grid; gap: 5px; margin-top: 18px; font-size: 14px; line-height: 1.7; }
-.profile-contacts > div { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 12px; align-items: baseline; }
-.profile-contacts dt { color: var(--muted); font-size: 13px; }
-.profile-contacts dd { min-width: 0; }
-.profile-contacts a { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; color: var(--accent); overflow-wrap: anywhere; }
-.profile-contacts a:hover { text-decoration: underline; }
-.profile-contacts svg { width: 13px; height: 13px; }
+.wechat-trigger, .wechat-copy { border: 0; padding: 0; background: transparent; }
+.wechat-popover { position: fixed; inset: auto; margin: 0; width: min(260px, calc(100vw - 40px)); max-height: calc(100dvh - 24px); overflow: auto; padding: 12px 18px 17px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 6px; box-shadow: 0 12px 35px rgb(0 0 0 / 12%); }
+.wechat-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.wechat-heading p { font-size: 13px; color: var(--muted); }
+.wechat-heading .icon-button { min-height: 30px; min-width: 30px; padding: 6px; margin-right: -6px; }
+.wechat-number { display: block; width: fit-content; margin-block: 5px 8px; color: var(--ink); font-size: 20px; font-variant-numeric: tabular-nums; }
+.wechat-copy { font-size: 13px; min-height: 34px; }
 .portrait { grid-area: portrait; align-self: center; justify-self: end; width: 100%; max-width: 240px; }
 .portrait-frame { overflow: hidden; border-radius: 5px; background: var(--surface); }
 .portrait img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 75% 35%; filter: brightness(1.16) contrast(0.98); }
@@ -234,9 +234,6 @@ html[lang='zh-CN'] h2 { font-size: 33px; letter-spacing: 0; }
   .bio { font-size: 16px; line-height: 1.85; text-wrap: wrap; }
   .hero-links { justify-content: flex-start; gap: 8px 20px; margin-top: 20px; }
   .hero-links .text-link { font-size: 13px; min-height: 40px; }
-  .profile-contacts { margin-top: 14px; gap: 3px; }
-  .profile-contacts > div { grid-template-columns: 96px minmax(0, 1fr); gap: 10px; }
-  .profile-contacts a { min-height: 36px; }
   .section { padding-top: 40px; }
   .section-header { display: block; margin-bottom: 24px; padding-bottom: 20px; }
   .section-header > .text-link { margin-top: 12px; }

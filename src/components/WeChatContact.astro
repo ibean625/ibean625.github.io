@@ -1,0 +1,19 @@
+---
+import Icon from './Icon.astro';
+import { copy, profile, type Locale } from '../data/site';
+interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = copy[locale];
+---
+<button class="text-link wechat-trigger" type="button" popovertarget="wechat-popover" aria-haspopup="dialog">{t.wechatLabel}<Icon name="external" /></button>
+<div id="wechat-popover" class="wechat-popover" popover role="dialog" aria-labelledby="wechat-heading">
+  <div class="wechat-heading">
+    <p id="wechat-heading">{t.wechatNumberLabel}</p>
+    <button class="icon-button" type="button" popovertarget="wechat-popover" popovertargetaction="hide" aria-label={t.closeContact}><Icon name="close" /></button>
+  </div>
+  <a class="wechat-number" href={`tel:+86${profile.wechat}`}>{profile.wechat}</a>
+  <button class="text-link wechat-copy" type="button" data-number={profile.wechat} data-default={t.copyWechat} data-copied={t.wechatCopied} data-fallback={t.wechatCopyFallback} aria-live="polite">{t.copyWechat}</button>
+</div>
+<script>
+  import '../scripts/wechat-contact';
+</script>

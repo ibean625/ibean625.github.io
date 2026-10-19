@@ -35,7 +35,7 @@ npm run preview
 
 The English homepage is `/`; the Chinese homepage is `/zh/`. Language links preserve the current section and save the preference locally. Theme selection also persists, with the system preference used initially. Both pages remain readable and navigable without JavaScript.
 
-Email, WeChat/phone, and Xiaohongshu contacts appear below the biography links and are configured in `_config.yml`. Mobile layouts use one shared content column for the portrait, biography, contacts, and publications.
+Email, Xiaohongshu, and WeChat appear alongside the biography links and are configured in `_config.yml`. WeChat opens a compact popover with the phone number and a copy action. The biography is justified, and mobile layouts use one shared content column for the portrait, biography, links, and publications.
 
 Click a publication figure to enlarge it. Available demo videos play silently on mouse hover and stop on exit; touch devices have an explicit play button. The preview dialog supports Escape, backdrop dismissal, native video controls, and focus restoration. Video files load only after interaction, and automatic previews respect reduced-motion and data-saving preferences. Without JavaScript, the links open the original image or video.
 
